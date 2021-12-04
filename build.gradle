@@ -118,67 +118,6 @@ artifacts {
     archives devJar
 }
 
-import net.minecraftforge.gradle.delayed.*
-import net.minecraftforge.gradle.tasks.dev.ChangelogTask
-
-task createChangelog(type: ChangelogTask) {
-
-    if (("${System.getenv().JOB_NAME}" != null) && project.hasProperty("jenkins_server") && project.hasProperty("jenkins_password")) {
-        def jobName = "${System.getenv().JOB_NAME}"
-        def buildNumber = "${System.getenv().BUILD_NUMBER}"
-
-        setServerRoot(new DelayedString(project, project.jenkins_server))
-        setJobName(new DelayedString(project, jobName.toString()))
-        setAuthName(new DelayedString(project, project.jenkins_user))
-        setAuthPassword(new DelayedString(project, project.jenkins_password))
-        setTargetBuild({ buildNumber.toString() });
-        setOutput(new DelayedFile(project, 'build/libs/' + project.archivesBaseName + '-' + project.version + '-changelog.txt'));
-    }
-
-    onlyIf {
-        return (("${System.getenv().JOB_NAME}" != null) && project.hasProperty("jenkins_server") && project.hasProperty("jenkins_password"))
-    }
-}
-
-tasks.build.dependsOn('createChangelog')
-tasks.build.dependsOn('signJar')
-
-if (!project.hasProperty("keystore_location")) // keystore stuff
-    ext.keystore_location = "."
-if (!project.hasProperty("keystore_password")) // keystore stuff
-    ext.keystore_password = ""
-if (!project.hasProperty("ee3_keystore_alias")) // keystore stuff
-    ext.ee3_keystore_alias = ""
-
-task signJar(dependsOn: ["reobf", "devJar"]) {
-    inputs.dir jar.destinationDir
-    inputs.file keystore_location
-    inputs.property "ee3_keystore_alias", ee3_keystore_alias
-    inputs.property "keystore_password", keystore_password
-    outputs.dir devJar.destinationDir
-
-    // only sign if the keystore exists
-    onlyIf {
-        return keystore_location != "." && keystore_password != ""
-    }
-    // the actual action.. sign the jar.
-    doLast {
-        jar.destinationDir.eachFile { file ->
-            if (!file.getPath().endsWith(".jar"))
-                return; // skip non-jars
-
-            logger.lifecycle "signing $file"
-            ant.signjar(
-                    destDir: file.getParentFile(), // same place it came from
-                    jar: file,
-                    keystore: keystore_location,
-                    alias: ee3_keystore_alias,
-                    storepass: keystore_password
-            )
-        }
-    }
-}
-
 uploadArchives {
     repositories {
         mavenDeployer {
