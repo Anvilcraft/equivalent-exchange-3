@@ -19,7 +19,6 @@ public class EETestSuite extends EnergyValueTestSuite {
         add(ModBlocks.aludel, 1794);
         add(ModBlocks.glassBell, 7);
         add(ModBlocks.researchStation, 520);
-        add(ModBlocks.augmentationTable, 284);
         add(new ItemStack(ModBlocks.alchemicalChest, 1, 0), 576);
         add(new ItemStack(ModBlocks.alchemicalChest, 1, 1), 16448);
         add(new ItemStack(ModBlocks.alchemicalChest, 1, 2), 65600);
@@ -47,36 +46,7 @@ public class EETestSuite extends EnergyValueTestSuite {
         add(new ItemStack(ModItems.alchemicalUpgrade, 1, 0), null);
         add(new ItemStack(ModItems.alchemicalUpgrade, 1, 1), null);
         add(new ItemStack(ModItems.alchemicalUpgrade, 1, 2), null);
-        add(ModItems.diviningRod, 16);
         add(ModItems.alchenomicon, 8352);
-        add(new ItemStack(ModItems.matter, 1, 0), null);
-        add(new ItemStack(ModItems.matter, 1, 1), null);
-        add(new ItemStack(ModItems.matter, 1, 2), null);
-        add(new ItemStack(ModItems.matter, 1, 3), null);
-        add(new ItemStack(ModItems.matter, 1, 4), null);
-        add(new ItemStack(ModItems.matter, 1, 5), null);
-        add(new ItemStack(ModItems.matter, 1, 6), null);
-        add(new ItemStack(ModItems.matter, 1, 7), null);
-        add(new ItemStack(ModItems.matter, 1, 8), null);
-        add(new ItemStack(ModItems.gem, 1, 0), null);
-        add(new ItemStack(ModItems.gem, 1, 1), null);
-        add(new ItemStack(ModItems.gem, 1, 2), null);
-        add(new ItemStack(ModItems.gem, 1, 3), null);
-        add(new ItemStack(ModItems.gem, 1, 4), null);
-        add(new ItemStack(ModItems.gem, 1, 5), null);
-        add(new ItemStack(ModItems.gem, 1, 6), null);
-        add(ModItems.lootBall, null);
-        add(ModItems.knowledgeScroll, null);
-        add(ModItems.potionLethe, null);
-        add(ModItems.shovelDarkMatter, null);
-        add(ModItems.pickAxeDarkMatter, null);
-        add(ModItems.hammerDarkMatter, null);
-        add(ModItems.axeDarkMatter, null);
-        add(ModItems.hoeDarkMatter, null);
-        add(ModItems.fishingRodDarkMatter, null);
-        add(ModItems.shearsDarkMatter, null);
-        add(ModItems.bowDarkMatter, null);
-        add(ModItems.swordDarkMatter, null);
 
         return this;
     }

@@ -2,6 +2,8 @@ package com.pahimar.ee3.util;
 
 import com.pahimar.ee3.reference.Reference;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class EntityHelper
@@ -22,5 +24,9 @@ public class EntityHelper
         {
             entity.getEntityData().setTag(Reference.LOWERCASE_MOD_ID, nbtTagCompound);
         }
+    }
+
+    public static boolean isHostileEntity(final EntityLivingBase entity) {
+        return entity instanceof IMob;
     }
 }

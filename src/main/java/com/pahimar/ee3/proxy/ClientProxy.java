@@ -10,15 +10,24 @@ import com.pahimar.ee3.client.settings.Keybindings;
 import com.pahimar.ee3.client.util.ClientParticleHelper;
 import com.pahimar.ee3.client.util.ClientSoundHelper;
 import com.pahimar.ee3.init.ModBlocks;
+import com.pahimar.ee3.network.PacketHandler;
+import com.pahimar.ee3.network.message.MessageTransmutateEvent;
 import com.pahimar.ee3.reference.RenderIds;
 import com.pahimar.ee3.settings.ChalkSettings;
 import com.pahimar.ee3.tileentity.*;
+import com.pahimar.ee3.util.TransmutationHelper;
+
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
+import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class ClientProxy extends CommonProxy
 {
@@ -79,15 +88,22 @@ public class ClientProxy extends CommonProxy
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.calcinator), new ItemRendererCalcinator());
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.glassBell), new ItemRendererGlassBell());
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.researchStation), new ItemRendererResearchStation());
-        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.augmentationTable), new ItemRendererAugmentationTable());
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAlchemicalChest.class, new TileEntityRendererAlchemicalChest());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCalcinator.class, new TileEntityRendererCalcinator());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAludel.class, new TileEntityRendererAludel());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGlassBell.class, new TileEntityRendererGlassBell());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityResearchStation.class, new TileEntityRendererResearchStation());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAugmentationTable.class, new TileEntityRendererAugmentationTable());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAlchemyArray.class, new TileEntityRendererAlchemyArray());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTransmutationTablet.class, new TileEntityRendererTransmutationTablet());
+    }
+
+    @Override
+    public void transmuteBlock(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, ForgeDirection sideHit) {
+        if (TransmutationHelper.targetBlockStack != null && itemStack != null) {
+            ItemStack stack = TransmutationHelper.targetBlockStack;
+            Block targetBlock = Block.getBlockFromItem(stack.getItem());
+            PacketHandler.INSTANCE.sendToServer(new MessageTransmutateEvent(x, y, z, sideHit, targetBlock, stack.getItemDamage()));  
+        }      
     }
 }

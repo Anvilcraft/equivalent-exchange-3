@@ -11,13 +11,17 @@ import com.pahimar.ee3.tileentity.TileEntityAlchemyArray;
 import com.pahimar.ee3.tileentity.TileEntityDummyArray;
 import com.pahimar.ee3.tileentity.TileEntityEE;
 import com.pahimar.ee3.util.IModalTool;
+import com.pahimar.ee3.util.TransmutationHelper;
+
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderGlobal;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -32,6 +36,8 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class DrawBlockHighlightEventHandler
 {
+    private static int pulse;
+    private static boolean doInc;
     @SubscribeEvent
     public void onDrawBlockHighlightEvent(DrawBlockHighlightEvent event)
     {
@@ -39,30 +45,16 @@ public class DrawBlockHighlightEventHandler
         {
             if (event.target.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
             {
-                if (event.currentItem.getItem() instanceof ItemDarkMatterShovel)
-                {
-                    drawSelectionBoxForShovel(event, (IModalTool) event.currentItem.getItem());
-                }
-                else if (event.currentItem.getItem() instanceof ItemDarkMatterPickAxe)
-                {
-                    drawSelectionBoxForPickAxe(event, (IModalTool) event.currentItem.getItem());
-                }
-                else if (event.currentItem.getItem() instanceof ItemDarkMatterHammer)
-                {
-                    drawSelectionBoxForHammer(event, (IModalTool) event.currentItem.getItem());
-                }
-                else if (event.currentItem.getItem() instanceof ItemDarkMatterAxe)
-                {
-                    drawSelectionBoxForAxe(event, (IModalTool) event.currentItem.getItem());
-                }
-                else if (event.currentItem.getItem() instanceof ItemDarkMatterHoe)
-                {
-                    drawSelectionBoxForHoe(event, (IModalTool) event.currentItem.getItem());
-                }
-                else if (event.currentItem.getItem() instanceof ItemChalk)
+                if (event.currentItem.getItem() instanceof ItemChalk)
                 {
                     // if should draw
                     drawAlchemyArrayOverlay(event);
+                }
+            }
+            if (event.currentItem != null && event.currentItem.getItem() instanceof ITransmutationStone && event.target.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+                TransmutationHelper.updateTargetBlock(event.player.worldObj, event.target.blockX, event.target.blockY, event.target.blockZ);
+                if (Minecraft.isGuiEnabled() && Minecraft.getMinecraft().inGameHasFocus) {
+                    this.drawInWorldTransmutationOverlay(event);
                 }
             }
         }
@@ -452,5 +444,122 @@ public class DrawBlockHighlightEventHandler
             GL11.glEnable(GL11.GL_TEXTURE_2D);
             GL11.glDisable(GL11.GL_BLEND);
         }
+    }
+
+    public void drawInWorldTransmutationOverlay(final DrawBlockHighlightEvent event) {
+        final double x = event.target.blockX + 0.5f;
+        final double y = event.target.blockY + 0.5f;
+        final double z = event.target.blockZ + 0.5f;
+        final double iPX = (event.player).prevPosX + ((event.player).posX - (event.player).prevPosX) * event.partialTicks;
+        final double iPY = (event.player).prevPosY + ((event.player).posY - (event.player).prevPosY) * event.partialTicks;
+        final double iPZ = (event.player).prevPosZ + ((event.player).posZ - (event.player).prevPosZ) * event.partialTicks;
+        //final int texture = event.context.renderEngine.func_78341_b("/mods/ee3/textures/effects/noise.png");
+        float xScale = 1.0f;
+        float yScale = 1.0f;
+        float zScale = 1.0f;
+        float xShift = 0.1f;
+        float yShift = 0.1f;
+        float zShift = 0.1f;
+        int itemChargeLevel = 0;
+        final int chargeLevel = 1 + itemChargeLevel * 2;
+        final ForgeDirection sideHit = ForgeDirection.getOrientation(event.target.sideHit);
+        switch (sideHit) {
+            case UP: {
+                xScale = chargeLevel + 0.1f;
+                zScale = chargeLevel + 0.1f;
+                xShift = 0.0f;
+                zShift = 0.0f;
+                break;
+            }
+            case DOWN: {
+                xScale = chargeLevel + 0.1f;
+                zScale = chargeLevel + 0.1f;
+                xShift = 0.0f;
+                yShift = -yShift;
+                zShift = 0.0f;
+                break;
+            }
+            case NORTH: {
+                xScale = chargeLevel + 0.1f;
+                yScale = chargeLevel + 0.1f;
+                xShift = 0.0f;
+                yShift = 0.0f;
+                zShift = -zShift;
+                break;
+            }
+            case SOUTH: {
+                xScale = chargeLevel + 0.1f;
+                yScale = chargeLevel + 0.1f;
+                xShift = 0.0f;
+                yShift = 0.0f;
+                break;
+            }
+            case EAST: {
+                yScale = chargeLevel + 0.1f;
+                zScale = chargeLevel + 0.1f;
+                yShift = 0.0f;
+                zShift = 0.0f;
+                break;
+            }
+            case WEST: {
+                yScale = chargeLevel + 0.1f;
+                zScale = chargeLevel + 0.1f;
+                xShift = -xShift;
+                yShift = 0.0f;
+                zShift = 0.0f;
+                break;
+            }
+        }
+        GL11.glDepthMask(false);
+        GL11.glDisable(2884);
+        for (int i = 0; i < 6; ++i) {
+            final ForgeDirection forgeDir = ForgeDirection.getOrientation(i);
+            final int zCorrection = (i == 2) ? -1 : 1;
+            GL11.glPushMatrix();
+            GL11.glTranslated(-iPX + x + xShift, -iPY + y + yShift, -iPZ + z + zShift);
+            GL11.glScalef(1.0f * xScale, 1.0f * yScale, 1.0f * zScale);
+            GL11.glRotatef(90.0f, (float)forgeDir.offsetX, (float)forgeDir.offsetY, (float)forgeDir.offsetZ);
+            GL11.glTranslated(0.0, 0.0, (double)(0.5f * zCorrection));
+            GL11.glClear(256);
+            renderPulsingQuad(new ResourceLocation("ee3", "textures/effects/noise.png"), 0.75f);
+            GL11.glPopMatrix();
+        }
+        GL11.glEnable(2884);
+        GL11.glDepthMask(true);
+    }
+
+    public static void renderPulsingQuad(final ResourceLocation texture, final float maxTransparency) {
+        final float pulseTransparency = getPulseValue() * maxTransparency / 3000.0f;
+        Minecraft.getMinecraft().renderEngine.bindTexture(texture);
+        final Tessellator tessellator = Tessellator.instance;
+        GL11.glEnable(32826);
+        GL11.glEnable(3042);
+        GL11.glBlendFunc(770, 771);
+        GL11.glColor4f(1.0f, 1.0f, 1.0f, pulseTransparency);
+        tessellator.startDrawingQuads();
+        tessellator.setColorRGBA_F(1.0f, 1.0f, 1.0f, pulseTransparency);
+        tessellator.addVertexWithUV(-0.5, 0.5, 0.0, 0.0, 1.0);
+        tessellator.addVertexWithUV(0.5, 0.5, 0.0, 1.0, 1.0);
+        tessellator.addVertexWithUV(0.5, -0.5, 0.0, 1.0, 0.0);
+        tessellator.addVertexWithUV(-0.5, -0.5, 0.0, 0.0, 0.0);
+        tessellator.draw();
+        GL11.glDisable(3042);
+        GL11.glDisable(32826);
+    }
+    
+    private static int getPulseValue() {
+        if (DrawBlockHighlightEventHandler.doInc) {
+            DrawBlockHighlightEventHandler.pulse += 8;
+        }
+        else {
+            DrawBlockHighlightEventHandler.pulse -= 8;
+        }
+        if (DrawBlockHighlightEventHandler.pulse == 3000) {
+            DrawBlockHighlightEventHandler.doInc = false;
+        }
+        if (DrawBlockHighlightEventHandler.pulse == 0) {
+            DrawBlockHighlightEventHandler.doInc = true;
+        }
+        return DrawBlockHighlightEventHandler.pulse;
     }
 }

@@ -3,6 +3,7 @@ package com.pahimar.ee3.inventory;
 import com.pahimar.ee3.api.blacklist.BlacklistRegistryProxy;
 import com.pahimar.ee3.api.exchange.EnergyValue;
 import com.pahimar.ee3.api.exchange.EnergyValueRegistryProxy;
+import com.pahimar.ee3.api.exchange.ITransmutationContainer;
 import com.pahimar.ee3.api.knowledge.PlayerKnowledgeRegistryProxy;
 import com.pahimar.ee3.inventory.element.IElementButtonHandler;
 import com.pahimar.ee3.inventory.element.IElementSliderHandler;
@@ -36,7 +37,7 @@ import java.util.*;
 public class ContainerTransmutationTablet extends ContainerEE implements IElementTextFieldHandler, IElementSliderHandler, IElementButtonHandler {
 
     private InventoryTransmutationTablet inventoryTransmutationTablet;
-    private final TileEntityTransmutationTablet transmutationTablet;
+    private final ITransmutationContainer transmutationTablet;
     private final World world;
     private EnergyValue energyValue;
     private String searchTerm;
@@ -158,7 +159,7 @@ public class ContainerTransmutationTablet extends ContainerEE implements IElemen
 
         PacketHandler.INSTANCE.sendToAllAround(
                 new MessagePlayerKnowledge(transmutationTablet, knownItemStacks),
-                new NetworkRegistry.TargetPoint(world.provider.dimensionId, transmutationTablet.xCoord, transmutationTablet.yCoord, transmutationTablet.zCoord, 5d)
+                new NetworkRegistry.TargetPoint(world.provider.dimensionId, transmutationTablet.getXCoord(), transmutationTablet.getYCoord(), transmutationTablet.getZCoord(), 5d)
         );
     }
 

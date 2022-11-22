@@ -2,7 +2,12 @@ package com.pahimar.ee3.util;
 
 import com.pahimar.ee3.exchange.OreStack;
 import com.pahimar.ee3.exchange.WrappedStack;
+
+import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
@@ -223,5 +228,79 @@ public class RecipeHelper
         }
 
         return true;
+    }
+
+    public static void addRecipe(final ItemStack output, final Object... input) {
+        GameRegistry.addShapelessRecipe(output, input);
+    }
+    
+    public static void addRecipe(final ItemStack output, final ItemStack transmutationStone, final Object... input) {
+        final Object[] inputs = new Object[input.length + 1];
+        System.arraycopy(input, 0, inputs, 0, input.length);
+        inputs[input.length] = transmutationStone;
+        addRecipe(output, inputs);
+    }
+    
+    public static void addRecipe(final Block output, final Object... input) {
+        addRecipe(new ItemStack(output), input);
+    }
+    
+    public static void addRecipe(final Block output, final int count, final Object... input) {
+        addRecipe(new ItemStack(output, count), input);
+    }
+    
+    public static void addRecipe(final Item output, final Object... input) {
+        addRecipe(new ItemStack(output), input);
+    }
+    
+    public static void addRecipe(final Item output, final int count, final Object... input) {
+        addRecipe(new ItemStack(output, count), input);
+    }
+    
+    public static Object[] getMetaCycle(final Object input, final int n) {
+        final ArrayList<ItemStack> list = new ArrayList<>();
+        for (int i = 0; i < n; ++i) {
+            final ItemStack stack = ItemStackUtils.convertObjectToItemStack(input);
+            stack.setItemDamage(i);
+            list.add(stack);
+        }
+        return list.toArray();
+    }
+    
+    public static Object[] getMetaCycle(final Object input, final int n, final int... excludedMeta) {
+        final ArrayList<ItemStack> list = new ArrayList<>();
+        for (int i = 0; i < n; ++i) {
+            for (final int j : excludedMeta) {
+                if (i == j) {
+                    ++i;
+                }
+            }
+            if (i >= n) {
+                break;
+            }
+            final ItemStack stack = ItemStackUtils.convertObjectToItemStack(input);
+            stack.setItemDamage(i);
+            list.add(stack);
+        }
+        return list.toArray();
+    }
+
+    public static void addSmeltingRecipe(final ItemStack input, final ItemStack stone, final ItemStack fuel) {
+        final ItemStack result = FurnaceRecipes.smelting().getSmeltingResult(input);
+        if (input == null || input.getItem() == null || result == null) {
+            return;
+        }
+        final Object[] list = new Object[9];
+        list[0] = stone;
+        list[1] = fuel;
+        for (int i = 2; i < 9; ++i) {
+            list[i] = new ItemStack(input.getItem(), 1, input.getItemDamage());
+        }
+        if (result.stackSize * 7 <= result.getItem().getItemStackLimit()) {
+            GameRegistry.addShapelessRecipe(new ItemStack(result.getItem(), result.stackSize * 7, result.getItemDamage()), list);
+        }
+        else {
+            GameRegistry.addShapelessRecipe(new ItemStack(result.getItem(), result.getItem().getItemStackLimit(), result.getItemDamage()), list);
+        }
     }
 }

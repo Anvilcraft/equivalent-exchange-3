@@ -1,8 +1,8 @@
 package com.pahimar.ee3.network.message;
 
 import com.google.gson.JsonSyntaxException;
+import com.pahimar.ee3.api.exchange.ITransmutationContainer;
 import com.pahimar.ee3.knowledge.PlayerKnowledge;
-import com.pahimar.ee3.tileentity.TileEntityTransmutationTablet;
 import com.pahimar.ee3.util.CompressionHelper;
 import com.pahimar.ee3.util.SerializationHelper;
 import cpw.mods.fml.client.FMLClientHandler;
@@ -10,6 +10,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
@@ -23,12 +24,12 @@ public class MessagePlayerKnowledge implements IMessage, IMessageHandler<Message
     public MessagePlayerKnowledge(){
     }
 
-    public MessagePlayerKnowledge(TileEntityTransmutationTablet transmutationTablet, Collection<ItemStack> knownItemStacks) {
+    public MessagePlayerKnowledge(ITransmutationContainer transmutationTablet, Collection<ItemStack> knownItemStacks) {
 
         if (transmutationTablet != null) {
-            this.xCoord = transmutationTablet.xCoord;
-            this.yCoord = transmutationTablet.yCoord;
-            this.zCoord = transmutationTablet.zCoord;
+            this.xCoord = transmutationTablet.getXCoord();
+            this.yCoord = transmutationTablet.getYCoord();
+            this.zCoord = transmutationTablet.getZCoord();
         }
         else {
             this.xCoord = 0;
@@ -96,9 +97,8 @@ public class MessagePlayerKnowledge implements IMessage, IMessageHandler<Message
         if (message.yCoord != Integer.MIN_VALUE) {
 
             TileEntity tileEntity = FMLClientHandler.instance().getWorldClient().getTileEntity(message.xCoord, message.yCoord, message.zCoord);
-
-            if (tileEntity instanceof TileEntityTransmutationTablet) {
-                ((TileEntityTransmutationTablet) tileEntity).handlePlayerKnowledgeUpdate(message.playerKnowledge);
+            if (tileEntity instanceof ITransmutationContainer) {
+                ((ITransmutationContainer) tileEntity).handlePlayerKnowledgeUpdate(message.playerKnowledge);
             }
         }
 

@@ -18,7 +18,6 @@ public class ModBlocks
     public static final BlockTileEntityEE calcinator = new BlockCalcinator();
     public static final BlockTileEntityEE glassBell = new BlockGlassBell();
     public static final BlockTileEntityEE researchStation = new BlockResearchStation();
-    public static final BlockTileEntityEE augmentationTable = new BlockAugmentationTable();
     public static final BlockEE ashInfusedStone = new BlockAshInfusedStone();
     public static final BlockTileEntityEE alchemyArray = new BlockAlchemyArray();
     public static final BlockTileEntityEE dummyArray = new BlockDummyArray();
@@ -31,7 +30,6 @@ public class ModBlocks
         GameRegistry.registerBlock(aludel, Names.Blocks.ALUDEL);
         GameRegistry.registerBlock(glassBell, Names.Blocks.GLASS_BELL);
         GameRegistry.registerBlock(researchStation, Names.Blocks.RESEARCH_STATION);
-        GameRegistry.registerBlock(augmentationTable, Names.Blocks.AUGMENTATION_TABLE);
         GameRegistry.registerBlock(alchemicalChest, ItemBlockAlchemicalChest.class, Names.Blocks.ALCHEMICAL_CHEST);
         GameRegistry.registerBlock(chalkBlock, Names.Blocks.CHALK);
         GameRegistry.registerBlock(alchemicalFuelBlock, ItemBlockAlchemicalFuel.class, Names.Blocks.ALCHEMICAL_FUEL);

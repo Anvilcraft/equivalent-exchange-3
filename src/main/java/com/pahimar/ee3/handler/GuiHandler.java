@@ -13,7 +13,10 @@ public class GuiHandler implements IGuiHandler
     @Override
     public Object getServerGuiElement(int id, EntityPlayer entityPlayer, World world, int x, int y, int z)
     {
-        if (id == GUIs.ALCHEMICAL_CHEST.ordinal())
+        if (id == GUIs.PORTABLE_CRAFTING.ordinal()) {
+            return new ContainerPortableCrafting(entityPlayer.inventory, world, x, y, z);
+        }
+        else if (id == GUIs.ALCHEMICAL_CHEST.ordinal())
         {
             TileEntityAlchemicalChest tileEntityAlchemicalChest = (TileEntityAlchemicalChest) world.getTileEntity(x, y, z);
             return new ContainerAlchemicalChest(entityPlayer.inventory, tileEntityAlchemicalChest);
@@ -46,11 +49,6 @@ public class GuiHandler implements IGuiHandler
             TileEntityResearchStation tileEntityResearchStation = (TileEntityResearchStation) world.getTileEntity(x, y, z);
             return new ContainerResearchStation(entityPlayer.inventory, tileEntityResearchStation);
         }
-        else if (id == GUIs.AUGMENTATION_TABLE.ordinal())
-        {
-            TileEntityAugmentationTable tileEntityAugmentationTable = (TileEntityAugmentationTable) world.getTileEntity(x, y, z);
-            return new ContainerAugmentationTable(entityPlayer.inventory, tileEntityAugmentationTable);
-        }
         else if (id == GUIs.TRANSMUTATION_TABLET.ordinal())
         {
             TileEntityTransmutationTablet tileEntityTransmutationTablet = (TileEntityTransmutationTablet) world.getTileEntity(x, y, z);
@@ -76,7 +74,10 @@ public class GuiHandler implements IGuiHandler
     @Override
     public Object getClientGuiElement(int id, EntityPlayer entityPlayer, World world, int x, int y, int z)
     {
-        if (id == GUIs.ALCHEMICAL_CHEST.ordinal())
+        if (id == GUIs.PORTABLE_CRAFTING.ordinal()) {
+            return new GuiPortableCrafting(entityPlayer, world, x, y, z);
+        }
+        else if (id == GUIs.ALCHEMICAL_CHEST.ordinal())
         {
             TileEntityAlchemicalChest tileEntityAlchemicalChest = (TileEntityAlchemicalChest) world.getTileEntity(x, y, z);
             return new GuiAlchemicalChest(entityPlayer.inventory, tileEntityAlchemicalChest);
@@ -108,11 +109,6 @@ public class GuiHandler implements IGuiHandler
         {
             TileEntityResearchStation tileEntityResearchStation = (TileEntityResearchStation) world.getTileEntity(x, y, z);
             return new GuiResearchStation(entityPlayer.inventory, tileEntityResearchStation);
-        }
-        else if (id == GUIs.AUGMENTATION_TABLE.ordinal())
-        {
-            TileEntityAugmentationTable tileEntityAugmentationTable = (TileEntityAugmentationTable) world.getTileEntity(x, y, z);
-            return new GuiAugmentationTable(entityPlayer.inventory, tileEntityAugmentationTable);
         }
         else if (id == GUIs.TRANSMUTATION_TABLET.ordinal())
         {

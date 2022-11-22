@@ -31,5 +31,6 @@ public class PacketHandler {
         INSTANCE.registerMessage(MessageTileEntityResearchStation.class, MessageTileEntityResearchStation.class, 17, Side.CLIENT);
         INSTANCE.registerMessage(MessageSyncBlacklist.class, MessageSyncBlacklist.class, 18, Side.CLIENT);
         INSTANCE.registerMessage(MessageSetBlacklistEntry.class, MessageSetBlacklistEntry.class, 19, Side.CLIENT);
+        INSTANCE.registerMessage(MessageTransmutateEvent.class, MessageTransmutateEvent.class, 20, Side.SERVER);
     }
 }

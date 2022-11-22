@@ -17,25 +17,7 @@ public class ModItems
     public static final ItemEE stonePhilosophers = new ItemPhilosophersStone();
     public static final ItemEE alchemicalUpgrade = new ItemAlchemicalInventoryUpgrade();
     public static final ItemEE chalk = new ItemChalk();
-    public static final ItemEE diviningRod = new ItemDiviningRod();
     public static final ItemEE alchenomicon = new ItemAlchenomicon();
-    public static final ItemEE matter = new ItemMatter();
-    public static final ItemEE gem = new ItemGem();
-    public static final ItemEE lootBall = new ItemLootBall();
-    public static final ItemEE knowledgeScroll = new ItemKnowledgeScroll();
-    public static final ItemEE potionLethe = new ItemPotionLethe();
-
-    public static final ItemToolEE shovelDarkMatter = new ItemDarkMatterShovel();
-    public static final ItemToolEE pickAxeDarkMatter = new ItemDarkMatterPickAxe();
-    public static final ItemEE hammerDarkMatter = new ItemDarkMatterHammer();
-    public static final ItemToolEE axeDarkMatter = new ItemDarkMatterAxe();
-    public static final ItemDarkMatterHoe hoeDarkMatter = new ItemDarkMatterHoe();
-    public static final ItemDarkMatterFishingRod fishingRodDarkMatter = new ItemDarkMatterFishingRod();
-    public static final ItemDarkMatterShears shearsDarkMatter = new ItemDarkMatterShears();
-
-    public static final ItemDarkMatterBow bowDarkMatter = new ItemDarkMatterBow();
-    public static final ItemDarkMatterArrow arrowDarkMatter = new ItemDarkMatterArrow();
-    public static final ItemDarkMatterSword swordDarkMatter = new ItemDarkMatterSword();
 
     public static void init()
     {
@@ -48,29 +30,6 @@ public class ModItems
         GameRegistry.registerItem(stonePhilosophers, Names.Items.PHILOSOPHERS_STONE);
         GameRegistry.registerItem(chalk, Names.Items.CHALK);
         GameRegistry.registerItem(alchemicalUpgrade, Names.Items.ALCHEMICAL_UPGRADE);
-        GameRegistry.registerItem(diviningRod, Names.Items.DIVINING_ROD);
         GameRegistry.registerItem(alchenomicon, Names.Items.ALCHENOMICON, Names.Items.ALCHEMICAL_TOME);
-        GameRegistry.registerItem(matter, Names.Items.MATTER);
-        GameRegistry.registerItem(gem, Names.Items.GEM);
-        GameRegistry.registerItem(lootBall, Names.Items.LOOT_BALL);
-        GameRegistry.registerItem(knowledgeScroll, Names.Items.KNOWLEDGE_SCROLL);
-        GameRegistry.registerItem(potionLethe, Names.Items.POTION_LETHE);
-
-        GameRegistry.registerItem(shovelDarkMatter, Names.Tools.DARK_MATTER_SHOVEL);
-        GameRegistry.registerItem(pickAxeDarkMatter, Names.Tools.DARK_MATTER_PICKAXE);
-        GameRegistry.registerItem(hammerDarkMatter, Names.Tools.DARK_MATTER_HAMMER);
-        GameRegistry.registerItem(axeDarkMatter, Names.Tools.DARK_MATTER_AXE);
-        GameRegistry.registerItem(hoeDarkMatter, Names.Tools.DARK_MATTER_HOE);
-        GameRegistry.registerItem(fishingRodDarkMatter, Names.Tools.DARK_MATTER_FISHING_ROD);
-        GameRegistry.registerItem(shearsDarkMatter, Names.Tools.DARK_MATTER_SHEARS);
-
-        GameRegistry.registerItem(bowDarkMatter, Names.Weapons.DARK_MATTER_BOW);
-        GameRegistry.registerItem(arrowDarkMatter, Names.Weapons.DARK_MATTER_ARROW);
-        GameRegistry.registerItem(swordDarkMatter, Names.Weapons.DARK_MATTER_SWORD);
-
-        // Helm
-        // Chest
-        // Leggings
-        // Boots
     }
 }

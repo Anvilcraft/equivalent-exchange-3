@@ -2,9 +2,13 @@ package com.pahimar.ee3.util;
 
 import com.pahimar.ee3.reference.Comparators;
 import com.pahimar.ee3.reference.Names;
+
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class ItemStackUtils {
@@ -82,5 +86,27 @@ public class ItemStackUtils {
 
     public static void setOwnerName(ItemStack itemStack, EntityPlayer entityPlayer) {
         NBTHelper.setString(itemStack, Names.NBT.OWNER, entityPlayer.getDisplayName());
+    }
+
+    public static ItemStack convertObjectToItemStack(final Object obj) {
+        if (obj instanceof Item) {
+            return new ItemStack((Item)obj);
+        }
+        if (obj instanceof Block) {
+            return new ItemStack((Block)obj);
+        }
+        if (obj instanceof ItemStack) {
+            return (ItemStack)obj;
+        }
+        return null;
+    }
+
+    public static Object[] convertSingleStackToPluralStacks(final ItemStack stack) {
+        final ArrayList<ItemStack> list = new ArrayList<>();
+        for (int i = 0; i < stack.stackSize; ++i) {
+            final ItemStack currentStack = new ItemStack(stack.getItem(), 1, stack.getItemDamage());
+            list.add(currentStack);
+        }
+        return list.toArray();
     }
 }

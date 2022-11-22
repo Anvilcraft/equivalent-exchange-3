@@ -35,11 +35,16 @@ repositories {
         name = "jitpack"
         url = "https://jitpack.io"
     }
+   /* flatDir {
+        dirs 'libs'
+    }*/
 }
 dependencies {
     implementation "com.github.GTNewHorizons:NotEnoughItems:master-SNAPSHOT:dev"
     implementation "com.github.GTNewHorizons:EnderStorage:master-SNAPSHOT:dev"
     implementation "com.github.GTNewHorizons:waila:master-SNAPSHOT:dev"
+    
+  //  implementation "mozeintel:ProjectE:1.7.10-PE1.10.1"
 }
 
 ext.configFile = file "build.properties"

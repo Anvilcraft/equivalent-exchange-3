@@ -16,6 +16,8 @@ public abstract class CommonProxy implements IProxy
         FMLCommonHandler.instance().bus().register(itemEventHandler);
         MinecraftForge.EVENT_BUS.register(itemEventHandler);
         MinecraftForge.EVENT_BUS.register(new WorldEventHandler());
+        MinecraftForge.EVENT_BUS.register(new EntityLivingHandler());
+        MinecraftForge.EVENT_BUS.register(new WorldTransmutationHandler());
         MinecraftForge.EVENT_BUS.register(playerEventHandler);
         FMLCommonHandler.instance().bus().register(playerEventHandler);
         FMLCommonHandler.instance().bus().register(craftingHandler);

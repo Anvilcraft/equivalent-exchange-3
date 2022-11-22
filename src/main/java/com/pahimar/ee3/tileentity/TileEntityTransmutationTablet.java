@@ -3,6 +3,7 @@ package com.pahimar.ee3.tileentity;
 import com.pahimar.ee3.api.blacklist.BlacklistRegistryProxy;
 import com.pahimar.ee3.api.exchange.EnergyValue;
 import com.pahimar.ee3.api.exchange.EnergyValueRegistryProxy;
+import com.pahimar.ee3.api.exchange.ITransmutationContainer;
 import com.pahimar.ee3.block.BlockAshInfusedStoneSlab;
 import com.pahimar.ee3.item.ItemAlchenomicon;
 import com.pahimar.ee3.item.ItemMiniumStone;
@@ -25,7 +26,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import java.util.Collections;
 import java.util.Set;
 
-public class TileEntityTransmutationTablet extends TileEntityEE implements ISidedInventory {
+public class TileEntityTransmutationTablet extends TileEntityEE implements ISidedInventory, ITransmutationContainer {
 
     public static final int INVENTORY_SIZE = 10;
     public static final int ITEM_INPUT_1 = 0;
@@ -53,9 +54,14 @@ public class TileEntityTransmutationTablet extends TileEntityEE implements ISide
         inventory = new ItemStack[INVENTORY_SIZE];
     }
 
+    @Override
     public EnergyValue getAvailableEnergy()
     {
-        return availableEnergy;
+        if (inventory[STONE_INDEX] != null && inventory[STONE_INDEX].getItem() instanceof ItemMiniumStone) {
+            return availableEnergy;
+        } else {
+            return new EnergyValue(0);
+        }
     }
 
     public EnergyValue getStoredEnergy()
@@ -71,6 +77,7 @@ public class TileEntityTransmutationTablet extends TileEntityEE implements ISide
         this.rotation = rotation;
     }
 
+    @Override
     public Set<ItemStack> getPlayerKnowledge() {
 
         if (playerKnowledge != null) {
@@ -81,6 +88,7 @@ public class TileEntityTransmutationTablet extends TileEntityEE implements ISide
         }
     }
 
+    @Override
     public void handlePlayerKnowledgeUpdate(PlayerKnowledge playerKnowledge) {
         this.playerKnowledge = playerKnowledge;
     }
@@ -88,6 +96,7 @@ public class TileEntityTransmutationTablet extends TileEntityEE implements ISide
     /**
      * https://github.com/pahimar/Equivalent-Exchange-3/issues/1062
      */
+    @Override
     public void consumeInventoryForEnergyValue(ItemStack outputItemStack) {
 
         EnergyValue outputEnergyValue = EnergyValueRegistryProxy.getEnergyValueForStack(outputItemStack);
@@ -126,10 +135,11 @@ public class TileEntityTransmutationTablet extends TileEntityEE implements ISide
         updateEnergyValueFromInventory();
     }
 
+    @Override
     public void updateEnergyValueFromInventory() {
 
         float newEnergyValue = storedEnergy.getValue();
-        for (int i = 0; i <= STONE_INDEX; i++) {
+        for (int i = 0; i < STONE_INDEX; i++) {
             if (inventory[i] != null && EnergyValueRegistryProxy.hasEnergyValue(inventory[i])) {
                 newEnergyValue += EnergyValueRegistryProxy.getEnergyValueForStack(inventory[i]).getValue();
             }
@@ -350,5 +360,20 @@ public class TileEntityTransmutationTablet extends TileEntityEE implements ISide
     public boolean canExtractItem(int slotIndex, ItemStack itemStack, int side)
     {
         return false;
+    }
+
+    @Override
+    public int getXCoord() {
+        return xCoord;
+    }
+
+    @Override
+    public int getYCoord() {
+        return yCoord;
+    }
+
+    @Override
+    public int getZCoord() {
+        return zCoord;
     }
 }

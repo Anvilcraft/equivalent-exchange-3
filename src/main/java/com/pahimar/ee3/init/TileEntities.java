@@ -16,7 +16,6 @@ public class TileEntities
         GameRegistry.registerTileEntityWithAlternatives(TileEntityCalcinator.class, Names.Blocks.CALCINATOR, "tile." + Names.Blocks.CALCINATOR);
         GameRegistry.registerTileEntityWithAlternatives(TileEntityGlassBell.class, Names.Blocks.GLASS_BELL, "tile." + Names.Blocks.GLASS_BELL);
         GameRegistry.registerTileEntity(TileEntityResearchStation.class, Names.Blocks.RESEARCH_STATION);
-        GameRegistry.registerTileEntity(TileEntityAugmentationTable.class, Names.Blocks.AUGMENTATION_TABLE);
         GameRegistry.registerTileEntity(TileEntityAlchemyArray.class, Names.Blocks.ALCHEMY_ARRAY);
         GameRegistry.registerTileEntity(TileEntityDummyArray.class, Names.Blocks.DUMMY_ARRAY);
         GameRegistry.registerTileEntity(TileEntityTransmutationTablet.class, Names.Blocks.TRANSMUTATION_TABLET);

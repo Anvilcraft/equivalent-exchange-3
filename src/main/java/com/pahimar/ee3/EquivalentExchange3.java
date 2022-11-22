@@ -102,6 +102,7 @@ public class EquivalentExchange3
 
         CraftingHandler.init();
         Recipes.init();
+        RecipesTransmutationStone.init();
 
         // Register our fuels
         GameRegistry.registerFuelHandler(new FuelHandler());
