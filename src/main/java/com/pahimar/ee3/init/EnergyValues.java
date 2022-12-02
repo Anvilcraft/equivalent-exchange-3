@@ -2,6 +2,8 @@ package com.pahimar.ee3.init;
 
 import com.pahimar.ee3.api.exchange.EnergyValueRegistryProxy;
 import com.pahimar.ee3.exchange.OreStack;
+
+import cpw.mods.fml.common.Loader;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -15,6 +17,22 @@ public class EnergyValues {
     private static final String[] DYES = {"Black", "Red", "Green", "Brown", "Blue", "Purple", "Cyan", "LightGray", "Gray", "Pink", "Lime", "Yellow", "LightBlue", "Magenta", "Orange", "White"};
 
     public static void init() {
+
+        /* Equivalent Exchange 3 */
+        /**
+         *  Alchemical Dusts
+         */
+        EnergyValueRegistryProxy.setEnergyValue(new ItemStack(ModItems.alchemicalDust, 1, 0), 1, Phase.PRE_CALCULATION);
+        EnergyValueRegistryProxy.setEnergyValue(new ItemStack(ModItems.alchemicalDust, 1, 1), 64, Phase.PRE_CALCULATION);
+        EnergyValueRegistryProxy.setEnergyValue(new ItemStack(ModItems.alchemicalDust, 1, 2), 2048, Phase.PRE_CALCULATION);
+        EnergyValueRegistryProxy.setEnergyValue(new ItemStack(ModItems.alchemicalDust, 1, 3), 8192, Phase.PRE_CALCULATION);
+
+        /**
+         *  Minium Shard
+         */
+        EnergyValueRegistryProxy.setEnergyValue(new ItemStack(ModItems.shardMinium), 8192, Phase.PRE_CALCULATION);
+
+        if (Loader.isModLoaded("ProjectE")) return;
 
         // OreDictionary assignment
         EnergyValueRegistryProxy.setEnergyValue(new OreStack("cobblestone"), 1, Phase.PRE_CALCULATION);
@@ -153,19 +171,5 @@ public class EnergyValues {
         EnergyValueRegistryProxy.setEnergyValue(Items.nether_star, 24576, Phase.PRE_CALCULATION);
         EnergyValueRegistryProxy.setEnergyValue(Items.netherbrick, 1, Phase.PRE_CALCULATION);
         EnergyValueRegistryProxy.setEnergyValue(Items.quartz, 256, Phase.PRE_CALCULATION);
-
-        /* Equivalent Exchange 3 */
-        /**
-         *  Alchemical Dusts
-         */
-        EnergyValueRegistryProxy.setEnergyValue(new ItemStack(ModItems.alchemicalDust, 1, 0), 1, Phase.PRE_CALCULATION);
-        EnergyValueRegistryProxy.setEnergyValue(new ItemStack(ModItems.alchemicalDust, 1, 1), 64, Phase.PRE_CALCULATION);
-        EnergyValueRegistryProxy.setEnergyValue(new ItemStack(ModItems.alchemicalDust, 1, 2), 2048, Phase.PRE_CALCULATION);
-        EnergyValueRegistryProxy.setEnergyValue(new ItemStack(ModItems.alchemicalDust, 1, 3), 8192, Phase.PRE_CALCULATION);
-
-        /**
-         *  Minium Shard
-         */
-        EnergyValueRegistryProxy.setEnergyValue(new ItemStack(ModItems.shardMinium), 8192, Phase.PRE_CALCULATION);
     }
 }

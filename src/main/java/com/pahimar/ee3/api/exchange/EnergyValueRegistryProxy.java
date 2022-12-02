@@ -14,34 +14,23 @@ public final class EnergyValueRegistryProxy {
     @Mod.Instance("EE3")
     private static Object ee3Mod;
 
+    @Deprecated
     public static Map<WrappedStack, EnergyValue> getPreCalculationEnergyValues() {
         return getEnergyValues(Phase.PRE_CALCULATION);
     }
 
+    @Deprecated
     public static Map<WrappedStack, EnergyValue> getPostCalculationEnergyValues() {
         return getEnergyValues(Phase.POST_CALCULATION);
     }
 
+    @Deprecated
     public static Map<WrappedStack, EnergyValue> getEnergyValues() {
         return getEnergyValues(Phase.ALL);
     }
 
+    @Deprecated
     public static Map<WrappedStack, EnergyValue> getEnergyValues(Phase phase) {
-
-        init();
-
-        if (ee3Mod != null) {
-            if (phase == Phase.PRE_ASSIGNMENT || phase == Phase.PRE_CALCULATION) {
-                EE3Wrapper.ee3mod.getEnergyValueRegistry().getPreCalculationStackValueMap();
-            }
-            else if (phase == Phase.POST_ASSIGNMENT || phase == Phase.POST_CALCULATION) {
-                EE3Wrapper.ee3mod.getEnergyValueRegistry().getPostCalculationStackValueMap();
-            }
-            else if (phase == Phase.ALL) {
-                EE3Wrapper.ee3mod.getEnergyValueRegistry().getEnergyValues();
-            }
-        }
-
         return null;
     }
 
@@ -91,10 +80,12 @@ public final class EnergyValueRegistryProxy {
         return null;
     }
 
+    @Deprecated
     public static List getStacksInRange(Number start, Number finish) {
         return getStacksInRange(start, finish);
     }
 
+    @Deprecated
     public static List getStacksInRange(EnergyValue start, EnergyValue finish) {
 
         init();

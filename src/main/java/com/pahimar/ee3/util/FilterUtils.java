@@ -1,8 +1,7 @@
 package com.pahimar.ee3.util;
 
 import com.pahimar.ee3.api.exchange.EnergyValue;
-import com.pahimar.ee3.exchange.EnergyValueRegistry;
-import com.pahimar.ee3.exchange.WrappedStack;
+import com.pahimar.ee3.api.exchange.EnergyValueRegistryProxy;
 import com.pahimar.ee3.reference.Comparators;
 import net.minecraft.item.ItemStack;
 
@@ -62,14 +61,10 @@ public class FilterUtils {
     }
 
     public static Set<ItemStack> filterByEnergyValue(Collection<ItemStack> itemStacks, Number valueBound, ValueFilterType filterType, Comparator comparator) {
-        return filterByEnergyValue(EnergyValueRegistry.INSTANCE.getEnergyValues(), itemStacks, new EnergyValue(valueBound.floatValue()), filterType, comparator);
+        return filterByEnergyValue(itemStacks, new EnergyValue(valueBound.floatValue()), filterType, comparator);
     }
 
     public static Set<ItemStack> filterByEnergyValue(Collection<ItemStack> itemStacks, EnergyValue valueBound, ValueFilterType filterType, Comparator comparator) {
-        return filterByEnergyValue(EnergyValueRegistry.INSTANCE.getEnergyValues(), itemStacks, valueBound, filterType, comparator);
-    }
-
-    public static Set<ItemStack> filterByEnergyValue(Map<WrappedStack, EnergyValue> valueMap, Collection<ItemStack> itemStacks, EnergyValue valueBound, ValueFilterType filterType, Comparator comparator) {
 
         Set<ItemStack> filteredSet = (comparator != null ? new TreeSet<>(comparator) : new TreeSet<>(Comparators.DISPLAY_NAME_COMPARATOR));
 
@@ -81,7 +76,7 @@ public class FilterUtils {
             else {
                 for (ItemStack itemStack : itemStacks) {
 
-                    EnergyValue energyValue = EnergyValueRegistry.INSTANCE.getEnergyValue(valueMap, itemStack, false);
+                    EnergyValue energyValue = EnergyValueRegistryProxy.getEnergyValue(itemStack, false);
 
                     if (energyValue != null && Float.compare(energyValue.getValue(), 0) > 0) {
                         if (filterType == ValueFilterType.VALUE_LOWER_THAN_BOUND && energyValue.compareTo(valueBound) <= 0) {

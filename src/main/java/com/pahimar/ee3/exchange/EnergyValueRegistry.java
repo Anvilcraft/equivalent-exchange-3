@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableSortedMap;
 import com.pahimar.ee3.api.event.EnergyValueEvent;
 import com.pahimar.ee3.api.exchange.EnergyValue;
 import com.pahimar.ee3.api.exchange.IEnergyValueProvider;
+import com.pahimar.ee3.api.exchange.IEnergyValueRegistry;
 import com.pahimar.ee3.handler.ConfigurationHandler;
 import com.pahimar.ee3.recipe.RecipeRegistry;
 import com.pahimar.ee3.reference.Comparators;
@@ -28,7 +29,7 @@ import java.util.stream.Collectors;
 
 import static com.pahimar.ee3.api.exchange.EnergyValueRegistryProxy.Phase;
 
-public class EnergyValueRegistry {
+public class EnergyValueRegistry implements IEnergyValueRegistry {
 
     public static final EnergyValueRegistry INSTANCE = new EnergyValueRegistry();
 
@@ -486,10 +487,10 @@ public class EnergyValueRegistry {
         if (valueMap != null) {
             if (energyValueBound != null) {
                 if (isUpperBound) {
-                    return FilterUtils.filterByEnergyValue(valueMap, itemStacks, energyValueBound, FilterUtils.ValueFilterType.VALUE_LOWER_THAN_BOUND, Comparators.ENERGY_VALUE_ITEM_STACK_COMPARATOR);
+                    return FilterUtils.filterByEnergyValue(itemStacks, energyValueBound, FilterUtils.ValueFilterType.VALUE_LOWER_THAN_BOUND, Comparators.ENERGY_VALUE_ITEM_STACK_COMPARATOR);
                 }
                 else {
-                    return FilterUtils.filterByEnergyValue(valueMap, itemStacks, energyValueBound, FilterUtils.ValueFilterType.VALUE_GREATER_THAN_BOUND, Comparators.ENERGY_VALUE_ITEM_STACK_COMPARATOR);
+                    return FilterUtils.filterByEnergyValue(itemStacks, energyValueBound, FilterUtils.ValueFilterType.VALUE_GREATER_THAN_BOUND, Comparators.ENERGY_VALUE_ITEM_STACK_COMPARATOR);
                 }
             }
         }

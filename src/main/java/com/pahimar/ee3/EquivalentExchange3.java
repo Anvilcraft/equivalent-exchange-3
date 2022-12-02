@@ -1,8 +1,10 @@
 package com.pahimar.ee3;
 
+import com.pahimar.ee3.api.exchange.IEnergyValueRegistry;
 import com.pahimar.ee3.array.AlchemyArrayRegistry;
 import com.pahimar.ee3.blacklist.BlacklistRegistry;
 import com.pahimar.ee3.command.CommandEE;
+import com.pahimar.ee3.exchange.EMCRegistry;
 import com.pahimar.ee3.exchange.EnergyValueRegistry;
 import com.pahimar.ee3.handler.*;
 import com.pahimar.ee3.init.*;
@@ -21,6 +23,8 @@ import com.pahimar.ee3.util.FluidHelper;
 import com.pahimar.ee3.util.LogHelper;
 import com.pahimar.ee3.util.SerializationHelper;
 import com.pahimar.ee3.util.TileEntityDataHelper;
+
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -28,6 +32,8 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.*;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import moze_intel.projecte.api.ProjectEAPI;
+import moze_intel.projecte.api.proxy.IEMCProxy;
 
 import java.io.File;
 
@@ -39,6 +45,8 @@ public class EquivalentExchange3
 
     @SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.SERVER_PROXY_CLASS)
     public static IProxy proxy;
+
+    public static IEnergyValueRegistry REGISTRY;
 
     @EventHandler
     public void invalidFingerprint(FMLFingerprintViolationEvent event) {
@@ -62,6 +70,13 @@ public class EquivalentExchange3
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+
+        if (Loader.isModLoaded("ProjectE")) {
+            IEMCProxy proxy = ProjectEAPI.getEMCProxy();
+            REGISTRY = new EMCRegistry(proxy);
+        } else {
+            REGISTRY = EnergyValueRegistry.INSTANCE;
+        }
 
         ConfigurationHandler.init(event.getSuggestedConfigurationFile());
 
@@ -142,9 +157,9 @@ public class EquivalentExchange3
         }
     }
 
-    public EnergyValueRegistry getEnergyValueRegistry()
+    public IEnergyValueRegistry getEnergyValueRegistry()
     {
-        return EnergyValueRegistry.INSTANCE;
+        return REGISTRY;
     }
 
     public RecipeRegistry getRecipeRegistry()
