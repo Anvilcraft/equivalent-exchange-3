@@ -7,8 +7,9 @@ import com.pahimar.ee3.util.IOverlayItem;
 import com.pahimar.ee3.util.LogHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
-public class ItemPhilosophersStone extends ItemEE implements IKeyBound, IOverlayItem
+public class ItemPhilosophersStone extends ItemEE implements IKeyBound, IOverlayItem, ITransmutationStone
 {
     private int maxChargeLevel;
 
@@ -47,5 +48,20 @@ public class ItemPhilosophersStone extends ItemEE implements IKeyBound, IOverlay
     public void doKeyBindingAction(EntityPlayer entityPlayer, ItemStack itemStack, Key key)
     {
         LogHelper.info("{} {} {}", entityPlayer.toString(), itemStack.toString(), key.toString());
+    }
+
+    @Override
+    public void openPortableCraftingGUI(EntityPlayer p0, ItemStack p1) {
+        
+    }
+
+    @Override
+    public void openPortableTransmutationGUI(EntityPlayer p0, ItemStack p1) {
+        
+    }
+
+    @Override
+    public void transmuteBlock(ItemStack p0, EntityPlayer p1, World p2, int p3, int p4, int p5, int p6) {
+        
     }
 }

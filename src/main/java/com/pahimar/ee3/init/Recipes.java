@@ -38,7 +38,6 @@ public class Recipes
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.researchStation), "ipi", " s ", "sss", 'i', "ingotIron", 's', Blocks.stone, 'p', "slabWood"));
 
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.stoneInert), "sis", "igi", "sis", 's', Blocks.stone, 'i', "ingotIron", 'g', "ingotGold"));
-
     }
 
     private static void initAludelRecipes()
@@ -72,7 +71,7 @@ public class Recipes
         AludelRecipeManager.getInstance().addRecipe(new ItemStack(ModBlocks.alchemicalChest, 1, 2), new ItemStack(ModBlocks.alchemicalChest, 1, 1), new ItemStack(ModItems.alchemicalDust, 8, 3));
 
         // Minium Stone
-        AludelRecipeManager.getInstance().addRecipe(new ItemStack(ModItems.stoneMinium), new ItemStack(ModItems.stoneInert), new ItemStack(ModItems.alchemicalDust, 8, 3));
+        AludelRecipeManager.getInstance().addRecipe(new ItemStack(ModItems.stoneMinium), new ItemStack(ModItems.stoneInert), new ItemStack(ModItems.shardMinium, 8));
 
         // Alchenomicon
         AludelRecipeManager.getInstance().addRecipe(new ItemStack(ModItems.alchenomicon), new ItemStack(Items.book), new ItemStack(ModItems.alchemicalDust, 1, 3));

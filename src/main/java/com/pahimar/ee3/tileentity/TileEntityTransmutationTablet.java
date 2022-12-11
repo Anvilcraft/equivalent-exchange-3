@@ -5,9 +5,8 @@ import com.pahimar.ee3.api.exchange.EnergyValue;
 import com.pahimar.ee3.api.exchange.EnergyValueRegistryProxy;
 import com.pahimar.ee3.api.exchange.ITransmutationContainer;
 import com.pahimar.ee3.block.BlockAshInfusedStoneSlab;
+import com.pahimar.ee3.item.ITransmutationStone;
 import com.pahimar.ee3.item.ItemAlchenomicon;
-import com.pahimar.ee3.item.ItemMiniumStone;
-import com.pahimar.ee3.item.ItemPhilosophersStone;
 import com.pahimar.ee3.knowledge.PlayerKnowledge;
 import com.pahimar.ee3.network.PacketHandler;
 import com.pahimar.ee3.network.message.MessageTileEntityTransmutationTablet;
@@ -57,7 +56,7 @@ public class TileEntityTransmutationTablet extends TileEntityEE implements ISide
     @Override
     public EnergyValue getAvailableEnergy()
     {
-        if (inventory[STONE_INDEX] != null && inventory[STONE_INDEX].getItem() instanceof ItemMiniumStone) {
+        if (inventory[STONE_INDEX] != null && inventory[STONE_INDEX].getItem() instanceof ITransmutationStone) {
             return availableEnergy;
         } else {
             return new EnergyValue(0);
@@ -129,6 +128,27 @@ public class TileEntityTransmutationTablet extends TileEntityEE implements ISide
 
             if (this.storedEnergy.getValue() >= outputEnergyValue.getValue()) {
                 this.storedEnergy = new EnergyValue(this.storedEnergy.getValue() - outputEnergyValue.getValue());
+            }
+        }
+
+        int damageAmount = 1;
+
+        if (outputEnergyValue.getValue() >= 8192) {
+            damageAmount = 200;
+        } else if (outputEnergyValue.getValue() >= 2048) {
+            damageAmount = 50;
+        } else if (outputEnergyValue.getValue() >= 64) {
+            damageAmount = 10;
+        }
+
+        ItemStack stone = this.inventory[STONE_INDEX];
+
+        if (stone != null && stone.isItemStackDamageable()) {
+            int newDamage = stone.getItemDamage() + damageAmount;
+            if (newDamage >= stone.getMaxDamage()) {
+                this.inventory[STONE_INDEX] = null;
+            } else {
+                stone.setItemDamage(newDamage);
             }
         }
 
@@ -332,7 +352,7 @@ public class TileEntityTransmutationTablet extends TileEntityEE implements ISide
         {
             return true;
         }
-        else if (slotIndex == STONE_INDEX && (itemStack.getItem() instanceof ItemMiniumStone || itemStack.getItem() instanceof ItemPhilosophersStone))
+        else if (slotIndex == STONE_INDEX && itemStack.getItem() instanceof ITransmutationStone)
         {
             return true;
         }
