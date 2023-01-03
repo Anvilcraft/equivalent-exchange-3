@@ -9,12 +9,11 @@ buildscript {
             name = "sonatype"
             url = "https://oss.sonatype.org/content/repositories/snapshots/"
         }
-        maven {
-            url = "https://jitpack.io"
-        }
     }
     dependencies {
-        classpath 'com.github.GTNewHorizons:ForgeGradle:1.2.4'
+        classpath ('com.anatawa12.forge:ForgeGradle:1.2-1.0.+') {
+            changing = true
+        }
     }
 }
 
@@ -30,6 +29,9 @@ repositories {
     maven {
         name = "gt"
         url = "https://gregtech.overminddl1.com/"
+        metadataSources {
+            artifact()
+        }
     }
     maven {
         name = "jitpack"
@@ -40,7 +42,7 @@ repositories {
     }*/
 }
 dependencies {
-    implementation "com.github.GTNewHorizons:NotEnoughItems:master-SNAPSHOT:dev"
+    implementation "com.github.GTNewHorizons:NotEnoughItems:2.3.19-GTNH:dev"
     implementation "com.github.GTNewHorizons:EnderStorage:master-SNAPSHOT:dev"
     implementation "com.github.GTNewHorizons:waila:master-SNAPSHOT:dev"
     
@@ -96,31 +98,12 @@ processResources {
     // exclude xcf files, as they are for development only
     exclude '**/*.xcf'
 
-    // replace stuff in mcmod.info, nothing else
-    from(sourceSets.main.resources.srcDirs) {
-        include '*.info'
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
 
-        // replace version and mcversion
-        expand 'mod_version': project.version, 'minecraft_version': project.config.minecraft_version
+    filesMatching('mcmod.info') {
+        expand 'version':project.version, 'mcversion':project.minecraft.version
     }
-
-    // copy everything else, thats not the mcmod.info
-    from(sourceSets.main.resources.srcDirs) {
-        exclude '**/*.info'
-    }
-}
-
-task devJar(type: Jar, dependsOn: 'classes') {
-    from(sourceSets.main.output) {
-        include '**'
-    }
-
-    extension = 'jar'
-    classifier = 'dev'
-}
-
-artifacts {
-    archives devJar
 }
 
 uploadArchives {
