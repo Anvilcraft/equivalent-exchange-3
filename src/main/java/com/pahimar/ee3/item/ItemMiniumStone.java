@@ -1,6 +1,8 @@
 package com.pahimar.ee3.item;
 
 import com.pahimar.ee3.EquivalentExchange3;
+import com.pahimar.ee3.client.renderer.IOverlayItemRenderer;
+import com.pahimar.ee3.client.renderer.overlay_item.MiniumStoneOverlayItemRenderer;
 import com.pahimar.ee3.reference.GUIs;
 import com.pahimar.ee3.reference.Key;
 import com.pahimar.ee3.reference.Names;
@@ -133,5 +135,11 @@ public class ItemMiniumStone
         NBTHelper.setBoolean(itemStack, Names.NBT.TRANSMUTATION_GUI_OPEN, true);
         //thePlayer.openGui((Object)EquivalentExchange3.instance, 1, thePlayer.worldObj,
         //(int)thePlayer.posX, (int)thePlayer.posY, (int)thePlayer.posZ);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IOverlayItemRenderer getOverlayItemRenderer() {
+        return MiniumStoneOverlayItemRenderer.INSTANCE;
     }
 }

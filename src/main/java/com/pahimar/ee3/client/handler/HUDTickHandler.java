@@ -83,5 +83,9 @@ public class HUDTickHandler {
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glPopMatrix();
         GL11.glPopMatrix();
+
+        ((IOverlayItem) itemStack.getItem())
+            .getOverlayItemRenderer()
+            .renderOverlayItem(entityPlayer, itemStack);
     }
 }

@@ -1,7 +1,10 @@
 package com.pahimar.ee3.client.util;
 
 import cpw.mods.fml.client.FMLClientHandler;
+import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.ItemStack;
@@ -11,6 +14,8 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 public class RenderUtils {
+    private static int rotationAngle = 0;
+
     public static void bindTexture(ResourceLocation texture) {
         FMLClientHandler.instance().getClient().getTextureManager().bindTexture(texture);
     }
@@ -94,5 +99,37 @@ public class RenderUtils {
 
     private static double getPulseValue() {
         return (Math.sin(System.nanoTime() / 100f) + 1) / 2;
+    }
+
+    public static void renderRotatingBlockIntoGUI(
+        FontRenderer fontRenderer,
+        ItemStack stack,
+        int x,
+        int y,
+        float zLevel,
+        float scale
+    ) {
+        RenderBlocks renderBlocks = new RenderBlocks();
+        Block block = Block.getBlockFromItem(stack.getItem());
+        Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture
+        );
+        GL11.glPushMatrix();
+        GL11.glTranslatef((float) (x - 2), (float) (y + 3), -3.0F + zLevel);
+        GL11.glScalef(10.0F, 10.0F, 10.0F);
+        GL11.glTranslatef(1.0F, 0.5F, 1.0F);
+        GL11.glScalef(1.0F * scale, 1.0F * scale, -1.0F);
+        GL11.glRotatef(210.0F, 1.0F, 0.0F, 0.0F);
+        GL11.glRotatef(0.0F + (float) (1 * rotationAngle), 0.0F, 1.0F, 0.0F);
+        rotationAngle = (rotationAngle + 1) % 360;
+        int var10 = stack.getItem().getColorFromItemStack(stack, 0);
+        float var16 = (float) (var10 >> 16 & 255) / 255.0F;
+        float var12 = (float) (var10 >> 8 & 255) / 255.0F;
+        float var13 = (float) (var10 & 255) / 255.0F;
+        GL11.glColor4f(var16, var12, var13, 1.0F);
+        GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
+        renderBlocks.useInventoryTint = true;
+        renderBlocks.renderBlockAsItem(block, stack.getItemDamage(), 1.0F);
+        renderBlocks.useInventoryTint = true;
+        GL11.glPopMatrix();
     }
 }

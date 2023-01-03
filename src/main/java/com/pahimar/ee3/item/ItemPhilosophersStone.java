@@ -1,10 +1,14 @@
 package com.pahimar.ee3.item;
 
+import com.pahimar.ee3.client.renderer.IOverlayItemRenderer;
 import com.pahimar.ee3.reference.Key;
 import com.pahimar.ee3.reference.Names;
 import com.pahimar.ee3.util.IKeyBound;
 import com.pahimar.ee3.util.IOverlayItem;
 import com.pahimar.ee3.util.LogHelper;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -58,4 +62,10 @@ public class ItemPhilosophersStone
     public void transmuteBlock(
         ItemStack p0, EntityPlayer p1, World p2, int p3, int p4, int p5, int p6
     ) {}
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IOverlayItemRenderer getOverlayItemRenderer() {
+        return (e, s) -> {};
+    }
 }
