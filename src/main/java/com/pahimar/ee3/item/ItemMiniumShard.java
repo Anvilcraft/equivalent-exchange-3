@@ -5,10 +5,8 @@ import com.pahimar.ee3.api.exchange.IEnergyValueProvider;
 import com.pahimar.ee3.reference.Names;
 import net.minecraft.item.ItemStack;
 
-public class ItemMiniumShard extends ItemEE implements IEnergyValueProvider
-{
-    public ItemMiniumShard()
-    {
+public class ItemMiniumShard extends ItemEE implements IEnergyValueProvider {
+    public ItemMiniumShard() {
         super();
         this.setMaxStackSize(64);
         this.setUnlocalizedName(Names.Items.MINIUM_SHARD);
@@ -16,11 +14,15 @@ public class ItemMiniumShard extends ItemEE implements IEnergyValueProvider
 
     @Override
     public EnergyValue getEnergyValue(ItemStack itemStack) {
-        if (itemStack != null && itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey(Names.NBT.ENERGY_VALUE))
-        {
-            if (Float.compare(itemStack.getTagCompound().getFloat(Names.NBT.ENERGY_VALUE), 0) > 0)
-            {
-                return new EnergyValue(itemStack.getTagCompound().getFloat(Names.NBT.ENERGY_VALUE));
+        if (itemStack != null && itemStack.hasTagCompound()
+            && itemStack.getTagCompound().hasKey(Names.NBT.ENERGY_VALUE)) {
+            if (Float.compare(
+                    itemStack.getTagCompound().getFloat(Names.NBT.ENERGY_VALUE), 0
+                )
+                > 0) {
+                return new EnergyValue(
+                    itemStack.getTagCompound().getFloat(Names.NBT.ENERGY_VALUE)
+                );
             }
         }
         return null;

@@ -8,7 +8,6 @@ import java.util.List;
  */
 @Deprecated
 public final class RecipeRegistryProxy {
-
     /**
      *
      * @deprecated
@@ -18,7 +17,9 @@ public final class RecipeRegistryProxy {
      */
     @Deprecated
     public static void addRecipe(Object recipeOutput, List<?> recipeInputList) {
-        com.pahimar.ee3.api.recipe.RecipeRegistryProxy.addRecipe(recipeOutput, recipeInputList);
+        com.pahimar.ee3.api.recipe.RecipeRegistryProxy.addRecipe(
+            recipeOutput, recipeInputList
+        );
     }
 
     /**

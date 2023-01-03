@@ -11,25 +11,29 @@ import cpw.mods.fml.relauncher.Side;
 import net.minecraftforge.event.world.WorldEvent;
 
 public class WorldEventHandler {
-
     public static boolean hasInitilialized = false;
 
     @SubscribeEvent
     public void onWorldLoadEvent(WorldEvent.Load event) {
-
-        if (!hasInitilialized && FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
-
+        if (!hasInitilialized
+            && FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
             RecipeRegistry.INSTANCE.registerVanillaRecipes();
             AludelRecipeManager.registerRecipes();
 
             long startTime = System.nanoTime();
-            if (ConfigurationHandler.Settings.regenerateEnergyValuesWhen.equalsIgnoreCase("As Needed")) {
+            if (ConfigurationHandler.Settings.regenerateEnergyValuesWhen.equalsIgnoreCase(
+                    "As Needed"
+                )) {
                 EnergyValueRegistry.INSTANCE.load();
-            }
-            else {
+            } else {
                 EnergyValueRegistry.INSTANCE.compute();
             }
-            LogHelper.info(EnergyValueRegistry.ENERGY_VALUE_MARKER, "Energy value system initialized {} values after {} ms", EnergyValueRegistry.INSTANCE.getEnergyValues().size(), (System.nanoTime() - startTime) / 100000);
+            LogHelper.info(
+                EnergyValueRegistry.ENERGY_VALUE_MARKER,
+                "Energy value system initialized {} values after {} ms",
+                EnergyValueRegistry.INSTANCE.getEnergyValues().size(),
+                (System.nanoTime() - startTime) / 100000
+            );
             hasInitilialized = true;
 
             PlayerKnowledgeRegistry.INSTANCE.load();

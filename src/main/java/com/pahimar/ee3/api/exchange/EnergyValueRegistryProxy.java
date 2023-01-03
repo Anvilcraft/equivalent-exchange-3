@@ -1,16 +1,15 @@
 package com.pahimar.ee3.api.exchange;
 
-import com.pahimar.ee3.EquivalentExchange3;
-import com.pahimar.ee3.exchange.WrappedStack;
-import cpw.mods.fml.common.Mod;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public final class EnergyValueRegistryProxy {
+import com.pahimar.ee3.EquivalentExchange3;
+import com.pahimar.ee3.exchange.WrappedStack;
+import cpw.mods.fml.common.Mod;
 
+public final class EnergyValueRegistryProxy {
     @Mod.Instance("EE3")
     private static Object ee3Mod;
 
@@ -34,17 +33,17 @@ public final class EnergyValueRegistryProxy {
         return null;
     }
 
-    public static boolean hasEnergyValue(Object object)
-    {
+    public static boolean hasEnergyValue(Object object) {
         return hasEnergyValue(object, false);
     }
 
     public static boolean hasEnergyValue(Object object, boolean strict) {
-
         init();
 
         if (ee3Mod != null) {
-            return EE3Wrapper.ee3mod.getEnergyValueRegistry().hasEnergyValue(object, strict);
+            return EE3Wrapper.ee3mod.getEnergyValueRegistry().hasEnergyValue(
+                object, strict
+            );
         }
 
         return false;
@@ -55,11 +54,12 @@ public final class EnergyValueRegistryProxy {
     }
 
     public static EnergyValue getEnergyValue(Object object, boolean strict) {
-
         init();
 
         if (ee3Mod != null) {
-            return EE3Wrapper.ee3mod.getEnergyValueRegistry().getEnergyValue(object, strict);
+            return EE3Wrapper.ee3mod.getEnergyValueRegistry().getEnergyValue(
+                object, strict
+            );
         }
 
         return null;
@@ -70,11 +70,12 @@ public final class EnergyValueRegistryProxy {
     }
 
     public static EnergyValue getEnergyValueForStack(Object object, boolean strict) {
-
         init();
 
         if (ee3Mod != null) {
-            return EE3Wrapper.ee3mod.getEnergyValueRegistry().getEnergyValueForStack(object, strict);
+            return EE3Wrapper.ee3mod.getEnergyValueRegistry().getEnergyValueForStack(
+                object, strict
+            );
         }
 
         return null;
@@ -87,11 +88,12 @@ public final class EnergyValueRegistryProxy {
 
     @Deprecated
     public static List getStacksInRange(EnergyValue start, EnergyValue finish) {
-
         init();
 
         if (ee3Mod != null) {
-            return new ArrayList<>(EE3Wrapper.ee3mod.getEnergyValueRegistry().getStacksInRange(start, finish));
+            return new ArrayList<>(
+                EE3Wrapper.ee3mod.getEnergyValueRegistry().getStacksInRange(start, finish)
+            );
         }
 
         return Collections.EMPTY_LIST;
@@ -137,7 +139,8 @@ public final class EnergyValueRegistryProxy {
      * @param energyValue
      */
     @Deprecated
-    public static void addPreCalculationEnergyValue(Object object, EnergyValue energyValue) {
+    public static void
+    addPreCalculationEnergyValue(Object object, EnergyValue energyValue) {
         setEnergyValue(object, energyValue, Phase.PRE_CALCULATION);
     }
 
@@ -159,7 +162,8 @@ public final class EnergyValueRegistryProxy {
      * @param energyValue
      */
     @Deprecated
-    public static void addPostAssignedEnergyValue(Object object, EnergyValue energyValue) {
+    public static void
+    addPostAssignedEnergyValue(Object object, EnergyValue energyValue) {
         setEnergyValue(object, energyValue);
     }
 
@@ -181,7 +185,8 @@ public final class EnergyValueRegistryProxy {
      * @param energyValue
      */
     @Deprecated
-    public static void addPostCalculationEnergyValue(Object object, EnergyValue energyValue) {
+    public static void
+    addPostCalculationEnergyValue(Object object, EnergyValue energyValue) {
         setEnergyValue(object, energyValue);
     }
 
@@ -194,25 +199,23 @@ public final class EnergyValueRegistryProxy {
     }
 
     public static void setEnergyValue(Object object, Number energyValue, Phase phase) {
-
         setEnergyValue(object, new EnergyValue(energyValue), phase);
     }
 
-    public static void setEnergyValue(Object object, EnergyValue energyValue, Phase phase) {
-
+    public static void
+    setEnergyValue(Object object, EnergyValue energyValue, Phase phase) {
         init();
 
         if (ee3Mod != null) {
-            EE3Wrapper.ee3mod.getEnergyValueRegistry().setEnergyValue(object, energyValue, phase);
+            EE3Wrapper.ee3mod.getEnergyValueRegistry().setEnergyValue(
+                object, energyValue, phase
+            );
         }
     }
 
-    private static class EE3Wrapper {
-        private static EquivalentExchange3 ee3mod;
-    }
+    private static class EE3Wrapper { private static EquivalentExchange3 ee3mod; }
 
     private static void init() {
-
         if (ee3Mod != null) {
             EE3Wrapper.ee3mod = (EquivalentExchange3) ee3Mod;
         }

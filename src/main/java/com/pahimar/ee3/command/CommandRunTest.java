@@ -1,5 +1,9 @@
 package com.pahimar.ee3.command;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.pahimar.ee3.reference.Files;
 import com.pahimar.ee3.reference.Messages;
 import com.pahimar.ee3.reference.Names;
@@ -11,12 +15,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.util.ChatComponentTranslation;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 public class CommandRunTest extends CommandEE {
-
     @Override
     public String getCommandName() {
         return Names.Commands.RUN_TEST;
@@ -34,57 +33,75 @@ public class CommandRunTest extends CommandEE {
 
     @Override
     public void processCommand(ICommandSender commandSender, String[] args) {
-
         if (args.length == 2) {
-
             boolean testFound = false;
 
             if (Files.globalTestDirectory != null) {
                 for (File testCaseFile : Files.globalTestDirectory.listFiles()) {
-                    if (testCaseFile.isFile() && testCaseFile.getName().equalsIgnoreCase(args[1])) {
+                    if (testCaseFile.isFile()
+                        && testCaseFile.getName().equalsIgnoreCase(args[1])) {
                         testFound = true;
-                        EnergyValueTestSuite energyValueTestSuite = new EnergyValueTestSuite(testCaseFile);
-                        LogHelper.info(EnergyValueTestSuite.TEST_MARKER, "BEGIN TEST ({})", testCaseFile.getName());
+                        EnergyValueTestSuite energyValueTestSuite
+                            = new EnergyValueTestSuite(testCaseFile);
+                        LogHelper.info(
+                            EnergyValueTestSuite.TEST_MARKER,
+                            "BEGIN TEST ({})",
+                            testCaseFile.getName()
+                        );
                         energyValueTestSuite.run();
-                        LogHelper.info(EnergyValueTestSuite.TEST_MARKER, "END TEST ({})", testCaseFile.getName());
+                        LogHelper.info(
+                            EnergyValueTestSuite.TEST_MARKER,
+                            "END TEST ({})",
+                            testCaseFile.getName()
+                        );
                     }
                 }
 
                 if (testFound) {
-                    commandSender.addChatMessage(new ChatComponentTranslation(Messages.Commands.RUN_TESTS_SUCCESS, args[1]));
+                    commandSender.addChatMessage(new ChatComponentTranslation(
+                        Messages.Commands.RUN_TESTS_SUCCESS, args[1]
+                    ));
+                } else {
+                    commandSender.addChatMessage(new ChatComponentTranslation(
+                        Messages.Commands.RUN_TESTS_NOT_FOUND, args[1]
+                    ));
                 }
-                else {
-                    commandSender.addChatMessage(new ChatComponentTranslation(Messages.Commands.RUN_TESTS_NOT_FOUND, args[1]));
-                }
-            }
-            else {
+            } else {
                 throw new WrongUsageException(Messages.Commands.RUN_TEST_USAGE);
             }
-        }
-        else {
+        } else {
             throw new WrongUsageException(Messages.Commands.RUN_TEST_USAGE);
         }
     }
 
     @Override
     public List addTabCompletionOptions(ICommandSender commandSender, String[] args) {
-
         if (args.length == 2) {
-
-            File testCaseDirectory = new File(FMLCommonHandler.instance().getMinecraftServerInstance().getEntityWorld().getSaveHandler().getWorldDirectory(), "data" + File.separator + Reference.LOWERCASE_MOD_ID + File.separator + "energyvalues" + File.separator + "testcases");
+            File testCaseDirectory = new File(
+                FMLCommonHandler.instance()
+                    .getMinecraftServerInstance()
+                    .getEntityWorld()
+                    .getSaveHandler()
+                    .getWorldDirectory(),
+                "data" + File.separator + Reference.LOWERCASE_MOD_ID + File.separator
+                    + "energyvalues" + File.separator + "testcases"
+            );
             testCaseDirectory.mkdirs();
 
             ArrayList<String> fileNames = new ArrayList<>();
 
             if (Files.globalTestDirectory != null) {
                 for (File testCaseFile : Files.globalTestDirectory.listFiles()) {
-                    if (testCaseFile.isFile() && testCaseFile.getAbsolutePath().endsWith(".json")) {
+                    if (testCaseFile.isFile()
+                        && testCaseFile.getAbsolutePath().endsWith(".json")) {
                         fileNames.add(testCaseFile.getName());
                     }
                 }
             }
 
-            return getListOfStringsMatchingLastWord(args, fileNames.toArray(new String[0]));
+            return getListOfStringsMatchingLastWord(
+                args, fileNames.toArray(new String[0])
+            );
         }
 
         return null;

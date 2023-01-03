@@ -1,7 +1,6 @@
 package com.pahimar.ee3.network.message;
 
 import com.pahimar.ee3.handler.WorldTransmutationHandler;
-
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -10,8 +9,8 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MessageTransmutateEvent implements IMessage, IMessageHandler<MessageTransmutateEvent, IMessage> {
-
+public class MessageTransmutateEvent
+    implements IMessage, IMessageHandler<MessageTransmutateEvent, IMessage> {
     public int originX;
     public int originY;
     public int originZ;
@@ -24,7 +23,14 @@ public class MessageTransmutateEvent implements IMessage, IMessageHandler<Messag
 
     public MessageTransmutateEvent() {}
 
-    public MessageTransmutateEvent(int originX, int originY, int originZ, ForgeDirection sideHit, Block block, int metadata) {
+    public MessageTransmutateEvent(
+        int originX,
+        int originY,
+        int originZ,
+        ForgeDirection sideHit,
+        Block block,
+        int metadata
+    ) {
         this.originX = originX;
         this.originY = originY;
         this.originZ = originZ;
@@ -36,7 +42,18 @@ public class MessageTransmutateEvent implements IMessage, IMessageHandler<Messag
     @Override
     public IMessage onMessage(MessageTransmutateEvent message, MessageContext ctx) {
         EntityPlayer player = ctx.getServerHandler().playerEntity;
-        WorldTransmutationHandler.handleWorldTransmutation(player, message.originX, message.originY, message.originZ, message.rangeX, message.rangeY, message.rangeZ, message.sideHit, message.block, message.metadata);
+        WorldTransmutationHandler.handleWorldTransmutation(
+            player,
+            message.originX,
+            message.originY,
+            message.originZ,
+            message.rangeX,
+            message.rangeY,
+            message.rangeZ,
+            message.sideHit,
+            message.block,
+            message.metadata
+        );
         return null;
     }
 
@@ -65,5 +82,4 @@ public class MessageTransmutateEvent implements IMessage, IMessageHandler<Messag
         buf.writeInt(Block.getIdFromBlock(block));
         buf.writeInt(metadata);
     }
-    
 }

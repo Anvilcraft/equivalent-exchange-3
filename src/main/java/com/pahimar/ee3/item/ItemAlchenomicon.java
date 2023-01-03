@@ -15,33 +15,35 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.world.World;
 
-public class ItemAlchenomicon extends ItemEE implements IOwnable, IEnergyValueProvider
-{
-    public ItemAlchenomicon()
-    {
+public class ItemAlchenomicon extends ItemEE implements IOwnable, IEnergyValueProvider {
+    public ItemAlchenomicon() {
         super();
         this.setUnlocalizedName(Names.Items.ALCHENOMICON);
     }
 
     @Override
-    public boolean getShareTag()
-    {
+    public boolean getShareTag() {
         return true;
     }
 
     @Override
-    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer)
-    {
-        if (!world.isRemote)
-        {
-            if (ItemStackUtils.getOwnerUUID(itemStack) == null)
-            {
+    public ItemStack
+    onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer) {
+        if (!world.isRemote) {
+            if (ItemStackUtils.getOwnerUUID(itemStack) == null) {
                 ItemStackUtils.setOwner(itemStack, entityPlayer);
-                entityPlayer.addChatComponentMessage(new ChatComponentTranslation(Messages.OWNER_SET_TO_SELF, new Object[]{itemStack.func_151000_E()}));
-            }
-            else
-            {
-                entityPlayer.openGui(EquivalentExchange3.instance, GUIs.ALCHENOMICON.ordinal(), entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+                entityPlayer.addChatComponentMessage(new ChatComponentTranslation(
+                    Messages.OWNER_SET_TO_SELF, new Object[] { itemStack.func_151000_E() }
+                ));
+            } else {
+                entityPlayer.openGui(
+                    EquivalentExchange3.instance,
+                    GUIs.ALCHENOMICON.ordinal(),
+                    entityPlayer.worldObj,
+                    (int) entityPlayer.posX,
+                    (int) entityPlayer.posY,
+                    (int) entityPlayer.posZ
+                );
             }
         }
 
@@ -49,8 +51,7 @@ public class ItemAlchenomicon extends ItemEE implements IOwnable, IEnergyValuePr
     }
 
     @Override
-    public EnergyValue getEnergyValue(ItemStack itemStack)
-    {
+    public EnergyValue getEnergyValue(ItemStack itemStack) {
         return EnergyValueRegistryProxy.getEnergyValue(ModItems.alchenomicon, true);
     }
 }

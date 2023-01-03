@@ -4,10 +4,8 @@ import com.pahimar.ee3.handler.*;
 import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraftforge.common.MinecraftForge;
 
-public abstract class CommonProxy implements IProxy
-{
-    public void registerEventHandlers()
-    {
+public abstract class CommonProxy implements IProxy {
+    public void registerEventHandlers() {
         ItemEventHandler itemEventHandler = new ItemEventHandler();
         CraftingHandler craftingHandler = new CraftingHandler();
         PlayerEventHandler playerEventHandler = new PlayerEventHandler();

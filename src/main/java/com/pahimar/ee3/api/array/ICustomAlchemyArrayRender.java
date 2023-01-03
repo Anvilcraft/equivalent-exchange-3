@@ -5,8 +5,16 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public interface ICustomAlchemyArrayRender
-{
+public interface ICustomAlchemyArrayRender {
     @SideOnly(Side.CLIENT)
-    public abstract void doCustomRendering(TileEntity tileEntity, double x, double y, double z, int arraySize, ForgeDirection orientation, ForgeDirection rotation, float tick);
+    public abstract void doCustomRendering(
+        TileEntity tileEntity,
+        double x,
+        double y,
+        double z,
+        int arraySize,
+        ForgeDirection orientation,
+        ForgeDirection rotation,
+        float tick
+    );
 }

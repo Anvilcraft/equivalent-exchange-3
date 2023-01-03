@@ -10,12 +10,12 @@ import net.minecraft.entity.player.InventoryPlayer;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
-public class GuiGlassBell extends GuiContainer
-{
+public class GuiGlassBell extends GuiContainer {
     private TileEntityGlassBell tileEntityGlassBell;
 
-    public GuiGlassBell(InventoryPlayer inventoryPlayer, TileEntityGlassBell tileEntityGlassBell)
-    {
+    public GuiGlassBell(
+        InventoryPlayer inventoryPlayer, TileEntityGlassBell tileEntityGlassBell
+    ) {
         super(new ContainerGlassBell(inventoryPlayer, tileEntityGlassBell));
         this.tileEntityGlassBell = tileEntityGlassBell;
         xSize = 176;
@@ -23,14 +23,12 @@ public class GuiGlassBell extends GuiContainer
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int x, int y)
-    {
+    protected void drawGuiContainerForegroundLayer(int x, int y) {
         // NOOP
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3)
-    {
+    protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

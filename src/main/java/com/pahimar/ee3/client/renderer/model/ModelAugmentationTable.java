@@ -7,17 +7,14 @@ import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 
 @SideOnly(Side.CLIENT)
-public class ModelAugmentationTable
-{
+public class ModelAugmentationTable {
     private IModelCustom modelAugmentationTable;
 
-    public ModelAugmentationTable()
-    {
+    public ModelAugmentationTable() {
         modelAugmentationTable = AdvancedModelLoader.loadModel(Models.AUGMENTATION_TABLE);
     }
 
-    public void render()
-    {
+    public void render() {
         modelAugmentationTable.renderAll();
     }
 }

@@ -1,11 +1,11 @@
 package com.pahimar.ee3.api.knowledge;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-
 import java.util.Collections;
 import java.util.Set;
 import java.util.UUID;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 
 /**
  * @deprecated as of API 0.4.0; use {@link PlayerKnowledgeRegistryProxy} instead
@@ -13,7 +13,6 @@ import java.util.UUID;
  */
 @Deprecated
 public class TransmutationKnowledgeRegistryProxy {
-
     @Deprecated
     public static boolean doesPlayerKnow(EntityPlayer entityPlayer, ItemStack itemStack) {
         return PlayerKnowledgeRegistryProxy.doesPlayerKnow(entityPlayer, itemStack);
@@ -45,22 +44,28 @@ public class TransmutationKnowledgeRegistryProxy {
     }
 
     @Deprecated
-    public static Set<ItemStack> getPlayerKnownTransmutationsFilteredStartsWith(EntityPlayer entityPlayer, String filterString) {
+    public static Set<ItemStack> getPlayerKnownTransmutationsFilteredStartsWith(
+        EntityPlayer entityPlayer, String filterString
+    ) {
         return PlayerKnowledgeRegistryProxy.getKnownItemStacks(entityPlayer);
     }
 
     @Deprecated
-    public static Set<ItemStack> getPlayerKnownTransmutationsFilteredStartsWith(UUID playerUUID, String filterString) {
+    public static Set<ItemStack>
+    getPlayerKnownTransmutationsFilteredStartsWith(UUID playerUUID, String filterString) {
         return Collections.EMPTY_SET;
     }
 
     @Deprecated
-    public static Set<ItemStack> getPlayerKnownTransmutationsFilteredContains(EntityPlayer entityPlayer, String filterString) {
+    public static Set<ItemStack> getPlayerKnownTransmutationsFilteredContains(
+        EntityPlayer entityPlayer, String filterString
+    ) {
         return PlayerKnowledgeRegistryProxy.getKnownItemStacks(entityPlayer);
     }
 
     @Deprecated
-    public static Set<ItemStack> getPlayerKnownTransmutationsFilteredContains(UUID playerUUID, String filterString) {
+    public static Set<ItemStack>
+    getPlayerKnownTransmutationsFilteredContains(UUID playerUUID, String filterString) {
         return Collections.EMPTY_SET;
     }
 
@@ -105,12 +110,14 @@ public class TransmutationKnowledgeRegistryProxy {
     }
 
     @Deprecated
-    public static Set<ItemStack> getTemplateKnownTransmutationsFilteredStartsWith(String filterString) {
+    public static Set<ItemStack>
+    getTemplateKnownTransmutationsFilteredStartsWith(String filterString) {
         return Collections.EMPTY_SET;
     }
 
     @Deprecated
-    public static Set<ItemStack> getTemplateKnownTransmutationsFilteredContains(String filterString) {
+    public static Set<ItemStack>
+    getTemplateKnownTransmutationsFilteredContains(String filterString) {
         return Collections.EMPTY_SET;
     }
 

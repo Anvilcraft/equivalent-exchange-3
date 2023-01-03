@@ -1,33 +1,29 @@
 package com.pahimar.ee3.util;
 
+import java.util.ArrayList;
+import java.util.UUID;
+
 import com.pahimar.ee3.reference.Comparators;
 import com.pahimar.ee3.reference.Names;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-import java.util.ArrayList;
-import java.util.UUID;
-
 public class ItemStackUtils {
-
     public static ItemStack clone(ItemStack itemStack, int stackSize) {
-
         if (itemStack != null) {
             ItemStack clonedItemStack = itemStack.copy();
             clonedItemStack.stackSize = stackSize;
             return clonedItemStack;
-        }
-        else {
+        } else {
             return null;
         }
     }
 
     /**
-     * Compares two ItemStacks for equality, testing itemID, metaData, stackSize, and their NBTTagCompounds (if they are
-     * present)
+     * Compares two ItemStacks for equality, testing itemID, metaData, stackSize, and
+     * their NBTTagCompounds (if they are present)
      *
      * @param first  The first ItemStack being tested for equality
      * @param second The second ItemStack being tested for equality
@@ -37,7 +33,8 @@ public class ItemStackUtils {
         return (Comparators.ID_COMPARATOR.compare(first, second) == 0);
     }
 
-    public static boolean equalsIgnoreStackSize(ItemStack itemStack1, ItemStack itemStack2) {
+    public static boolean
+    equalsIgnoreStackSize(ItemStack itemStack1, ItemStack itemStack2) {
         return equals(clone(itemStack1, 1), clone(itemStack2, 1));
     }
 
@@ -46,13 +43,22 @@ public class ItemStackUtils {
     }
 
     public static String toString(ItemStack itemStack) {
-
         if (itemStack != null) {
             if (itemStack.hasTagCompound()) {
-                return String.format("%sxitemStack[%s@%s:%s]", itemStack.stackSize, itemStack.getUnlocalizedName(), itemStack.getItemDamage(), itemStack.getTagCompound());
-            }
-            else {
-                return String.format("%sxitemStack[%s@%s]", itemStack.stackSize, itemStack.getUnlocalizedName(), itemStack.getItemDamage());
+                return String.format(
+                    "%sxitemStack[%s@%s:%s]",
+                    itemStack.stackSize,
+                    itemStack.getUnlocalizedName(),
+                    itemStack.getItemDamage(),
+                    itemStack.getTagCompound()
+                );
+            } else {
+                return String.format(
+                    "%sxitemStack[%s@%s]",
+                    itemStack.stackSize,
+                    itemStack.getUnlocalizedName(),
+                    itemStack.getItemDamage()
+                );
             }
         }
 
@@ -60,7 +66,6 @@ public class ItemStackUtils {
     }
 
     public static void setOwner(ItemStack itemStack, EntityPlayer entityPlayer) {
-
         setOwnerName(itemStack, entityPlayer);
         setOwnerUUID(itemStack, entityPlayer);
     }
@@ -70,18 +75,28 @@ public class ItemStackUtils {
     }
 
     public static UUID getOwnerUUID(ItemStack itemStack) {
-
-        if (NBTHelper.getLong(itemStack, Names.NBT.OWNER_UUID_MOST_SIG) != null && NBTHelper.getLong(itemStack, Names.NBT.OWNER_UUID_LEAST_SIG) != null) {
-            return new UUID(NBTHelper.getLong(itemStack, Names.NBT.OWNER_UUID_MOST_SIG), NBTHelper.getLong(itemStack, Names.NBT.OWNER_UUID_LEAST_SIG));
+        if (NBTHelper.getLong(itemStack, Names.NBT.OWNER_UUID_MOST_SIG) != null
+            && NBTHelper.getLong(itemStack, Names.NBT.OWNER_UUID_LEAST_SIG) != null) {
+            return new UUID(
+                NBTHelper.getLong(itemStack, Names.NBT.OWNER_UUID_MOST_SIG),
+                NBTHelper.getLong(itemStack, Names.NBT.OWNER_UUID_LEAST_SIG)
+            );
         }
 
         return null;
     }
 
     public static void setOwnerUUID(ItemStack itemStack, EntityPlayer entityPlayer) {
-
-        NBTHelper.setLong(itemStack, Names.NBT.OWNER_UUID_MOST_SIG, entityPlayer.getUniqueID().getMostSignificantBits());
-        NBTHelper.setLong(itemStack, Names.NBT.OWNER_UUID_LEAST_SIG, entityPlayer.getUniqueID().getLeastSignificantBits());
+        NBTHelper.setLong(
+            itemStack,
+            Names.NBT.OWNER_UUID_MOST_SIG,
+            entityPlayer.getUniqueID().getMostSignificantBits()
+        );
+        NBTHelper.setLong(
+            itemStack,
+            Names.NBT.OWNER_UUID_LEAST_SIG,
+            entityPlayer.getUniqueID().getLeastSignificantBits()
+        );
     }
 
     public static void setOwnerName(ItemStack itemStack, EntityPlayer entityPlayer) {
@@ -90,13 +105,13 @@ public class ItemStackUtils {
 
     public static ItemStack convertObjectToItemStack(final Object obj) {
         if (obj instanceof Item) {
-            return new ItemStack((Item)obj);
+            return new ItemStack((Item) obj);
         }
         if (obj instanceof Block) {
-            return new ItemStack((Block)obj);
+            return new ItemStack((Block) obj);
         }
         if (obj instanceof ItemStack) {
-            return (ItemStack)obj;
+            return (ItemStack) obj;
         }
         return null;
     }
@@ -104,7 +119,8 @@ public class ItemStackUtils {
     public static Object[] convertSingleStackToPluralStacks(final ItemStack stack) {
         final ArrayList<ItemStack> list = new ArrayList<>();
         for (int i = 0; i < stack.stackSize; ++i) {
-            final ItemStack currentStack = new ItemStack(stack.getItem(), 1, stack.getItemDamage());
+            final ItemStack currentStack
+                = new ItemStack(stack.getItem(), 1, stack.getItemDamage());
             list.add(currentStack);
         }
         return list.toArray();

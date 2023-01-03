@@ -10,60 +10,53 @@ import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
-public class ItemRendererGlassBell implements IItemRenderer
-{
+public class ItemRendererGlassBell implements IItemRenderer {
     private final ModelGlassBell modelGlassBell;
 
-    public ItemRendererGlassBell()
-    {
+    public ItemRendererGlassBell() {
         modelGlassBell = new ModelGlassBell();
     }
 
     @Override
-    public boolean handleRenderType(ItemStack itemStack, ItemRenderType itemRenderType)
-    {
+    public boolean handleRenderType(ItemStack itemStack, ItemRenderType itemRenderType) {
         return true;
     }
 
     @Override
-    public boolean shouldUseRenderHelper(ItemRenderType itemRenderType, ItemStack itemStack, ItemRendererHelper itemRendererHelper)
-    {
+    public boolean shouldUseRenderHelper(
+        ItemRenderType itemRenderType,
+        ItemStack itemStack,
+        ItemRendererHelper itemRendererHelper
+    ) {
         return true;
     }
 
     @Override
-    public void renderItem(ItemRenderType itemRenderType, ItemStack itemStack, Object... data)
-    {
-        switch (itemRenderType)
-        {
-            case ENTITY:
-            {
+    public void
+    renderItem(ItemRenderType itemRenderType, ItemStack itemStack, Object... data) {
+        switch (itemRenderType) {
+            case ENTITY: {
                 renderGlassBell(-0.5F, -1.2F, 0.5F);
                 return;
             }
-            case EQUIPPED:
-            {
+            case EQUIPPED: {
                 renderGlassBell(-0.2F, -0.85F, 0.8F);
                 return;
             }
-            case EQUIPPED_FIRST_PERSON:
-            {
+            case EQUIPPED_FIRST_PERSON: {
                 renderGlassBell(-0.2F, -0.85F, 0.8F);
                 return;
             }
-            case INVENTORY:
-            {
+            case INVENTORY: {
                 renderGlassBell(-1.0F, -1.675F, 0.0F);
                 return;
             }
-            default:
-            {
+            default: {
             }
         }
     }
 
-    private void renderGlassBell(float x, float y, float z)
-    {
+    private void renderGlassBell(float x, float y, float z) {
         GL11.glEnable(GL11.GL_ALPHA_TEST);
 
         GL11.glPushMatrix();
@@ -74,12 +67,13 @@ public class ItemRendererGlassBell implements IItemRenderer
         GL11.glRotatef(-90F, 1F, 0, 0);
 
         // Bind texture
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Textures.Model.GLASS_BELL);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(
+            Textures.Model.GLASS_BELL
+        );
 
         // Render
         modelGlassBell.render();
 
         GL11.glPopMatrix();
-
     }
 }

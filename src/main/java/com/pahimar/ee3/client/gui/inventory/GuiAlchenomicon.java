@@ -19,29 +19,61 @@ import net.minecraft.util.StatCollector;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
-public class GuiAlchenomicon extends GuiBase
-{
+public class GuiAlchenomicon extends GuiBase {
     private ElementButton prevPageButton;
     private ElementButton nextPageButton;
     private ElementTextField searchTextField;
 
-    public GuiAlchenomicon(InventoryPlayer inventoryPlayer, ItemStack itemStack)
-    {
-        super(new ContainerAlchenomicon(inventoryPlayer.player, itemStack), Textures.Gui.ALCHENOMICON);
+    public GuiAlchenomicon(InventoryPlayer inventoryPlayer, ItemStack itemStack) {
+        super(
+            new ContainerAlchenomicon(inventoryPlayer.player, itemStack),
+            Textures.Gui.ALCHENOMICON
+        );
         xSize = 256;
         ySize = 226;
     }
 
     @Override
-    public void initGui()
-    {
+    public void initGui() {
         super.initGui();
 
         this.drawTitle = false;
         this.drawInventory = false;
 
-        prevPageButton = new ElementButton(this, 15, 177, "prev", 0, 0, 20, 0, 40, 0, 20, 10, 60, 10, Textures.Gui.Elements.ARROW_LEFT);
-        nextPageButton = new ElementButton(this, 223, 177, "next", 0, 0, 22, 0, 44, 0, 22, 10, 66, 10, Textures.Gui.Elements.ARROW_RIGHT);
+        prevPageButton = new ElementButton(
+            this,
+            15,
+            177,
+            "prev",
+            0,
+            0,
+            20,
+            0,
+            40,
+            0,
+            20,
+            10,
+            60,
+            10,
+            Textures.Gui.Elements.ARROW_LEFT
+        );
+        nextPageButton = new ElementButton(
+            this,
+            223,
+            177,
+            "next",
+            0,
+            0,
+            22,
+            0,
+            44,
+            0,
+            22,
+            10,
+            66,
+            10,
+            Textures.Gui.Elements.ARROW_RIGHT
+        );
         searchTextField = new ElementSearchField(this, 64, 205, "searchField", 128, 20);
         searchTextField.setPadding(6, 3, 0, 3);
         searchTextField.borderColor = new GuiColor(160, 160, 160).getColor();
@@ -53,32 +85,37 @@ public class GuiAlchenomicon extends GuiBase
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int x, int y)
-    {
+    protected void drawGuiContainerForegroundLayer(int x, int y) {
         super.drawGuiContainerForegroundLayer(x, y);
         int pageOffset = ((ContainerAlchenomicon) this.inventorySlots).getPageOffset();
 
-        if (this.inventorySlots.getSlot(0).getHasStack())
-        {
-            fontRendererObj.drawString((pageOffset * 2 + 1) + "", 64, 178, new GuiColor(50, 50, 50).getColor());
-        }
-        else
-        {
-            if (((ContainerAlchenomicon) this.inventorySlots).getKnownTransmutationsCount() == 0)
-            {
-                fontRendererObj.drawSplitString(StatCollector.translateToLocal(Messages.Gui.NO_KNOWN_TRANSMUTATIONS), 142, 20, 100, new GuiColor(50, 50, 50).getColor());
+        if (this.inventorySlots.getSlot(0).getHasStack()) {
+            fontRendererObj.drawString(
+                (pageOffset * 2 + 1) + "", 64, 178, new GuiColor(50, 50, 50).getColor()
+            );
+        } else {
+            if (((ContainerAlchenomicon) this.inventorySlots)
+                    .getKnownTransmutationsCount()
+                == 0) {
+                fontRendererObj.drawSplitString(
+                    StatCollector.translateToLocal(Messages.Gui.NO_KNOWN_TRANSMUTATIONS),
+                    142,
+                    20,
+                    100,
+                    new GuiColor(50, 50, 50).getColor()
+                );
             }
         }
 
-        if (this.inventorySlots.getSlot(40).getHasStack())
-        {
-            fontRendererObj.drawString((pageOffset * 2 + 2) + "", 186, 178, new GuiColor(50, 50, 50).getColor());
+        if (this.inventorySlots.getSlot(40).getHasStack()) {
+            fontRendererObj.drawString(
+                (pageOffset * 2 + 2) + "", 186, 178, new GuiColor(50, 50, 50).getColor()
+            );
         }
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int x, int y)
-    {
+    protected void drawGuiContainerBackgroundLayer(float partialTicks, int x, int y) {
         mouseX = x - guiLeft;
         mouseY = y - guiTop;
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -92,36 +129,31 @@ public class GuiAlchenomicon extends GuiBase
     }
 
     @Override
-    protected void updateElementInformation()
-    {
-        if (((ContainerAlchenomicon) this.inventorySlots).getPageOffset() == 0)
-        {
+    protected void updateElementInformation() {
+        if (((ContainerAlchenomicon) this.inventorySlots).getPageOffset() == 0) {
             prevPageButton.setDisabled();
-        }
-        else if (!prevPageButton.isEnabled())
-        {
+        } else if (!prevPageButton.isEnabled()) {
             prevPageButton.setEnabled(true);
         }
 
-        if (((ContainerAlchenomicon) this.inventorySlots).getPageOffset() == ((ContainerAlchenomicon) this.inventorySlots).getMaxPageOffset())
-        {
+        if (((ContainerAlchenomicon) this.inventorySlots).getPageOffset()
+            == ((ContainerAlchenomicon) this.inventorySlots).getMaxPageOffset()) {
             nextPageButton.setDisabled();
-        }
-        else if (!nextPageButton.isEnabled())
-        {
+        } else if (!nextPageButton.isEnabled()) {
             nextPageButton.setEnabled(true);
         }
     }
 
     @Override
-    protected void handleMouseClick(Slot slot, int p_146984_2_, int p_146984_3_, int p_146984_4_)
-    {
+    protected void
+    handleMouseClick(Slot slot, int p_146984_2_, int p_146984_3_, int p_146984_4_) {
         // NOOP
     }
 
     @Override
-    public void handleElementButtonClick(String buttonName, int mouseButton)
-    {
-        PacketHandler.INSTANCE.sendToServer(new MessageGuiElementClicked(buttonName, mouseButton));
+    public void handleElementButtonClick(String buttonName, int mouseButton) {
+        PacketHandler.INSTANCE.sendToServer(
+            new MessageGuiElementClicked(buttonName, mouseButton)
+        );
     }
 }

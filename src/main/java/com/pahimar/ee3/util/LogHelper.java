@@ -4,8 +4,7 @@ import com.pahimar.ee3.reference.Reference;
 import org.apache.logging.log4j.*;
 import org.apache.logging.log4j.message.Message;
 
-public class LogHelper
-{
+public class LogHelper {
     public static final Marker MOD_MARKER = MarkerManager.getMarker(Reference.MOD_ID);
     private static Logger logger = LogManager.getLogger(Reference.MOD_ID);
 

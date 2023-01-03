@@ -3,12 +3,10 @@ package com.pahimar.ee3.api.exchange;
 import java.util.Set;
 
 import com.pahimar.ee3.knowledge.PlayerKnowledge;
-
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
 public interface ITransmutationContainer extends IInventory {
-    
     int getXCoord();
 
     int getYCoord();
@@ -24,5 +22,4 @@ public interface ITransmutationContainer extends IInventory {
     void updateEnergyValueFromInventory();
 
     void handlePlayerKnowledgeUpdate(PlayerKnowledge playerKnowledge);
-
 }

@@ -1,16 +1,15 @@
 package com.pahimar.ee3.exchange;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+
 import com.pahimar.ee3.reference.Comparators;
 import com.pahimar.ee3.util.FilterUtils;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
-
 public final class OreStack implements Comparable<OreStack> {
-
     public String oreName;
     public int stackSize;
 
@@ -19,27 +18,22 @@ public final class OreStack implements Comparable<OreStack> {
             if (oreStack2 != null && oreStack2.oreName != null) {
                 if (oreStack1.oreName.equalsIgnoreCase(oreStack2.oreName)) {
                     return oreStack1.stackSize - oreStack2.stackSize;
-                }
-                else {
+                } else {
                     return oreStack1.oreName.compareToIgnoreCase(oreStack2.oreName);
                 }
-            }
-            else {
+            } else {
                 return -1;
             }
-        }
-        else {
+        } else {
             if (oreStack2 != null) {
                 return 1;
-            }
-            else {
+            } else {
                 return 0;
             }
         }
     };
 
-    private OreStack() {
-    }
+    private OreStack() {}
 
     public OreStack(String oreName) {
         this(oreName, 1);
@@ -56,7 +50,6 @@ public final class OreStack implements Comparable<OreStack> {
     }
 
     public static boolean compareOreNames(OreStack oreStack1, OreStack oreStack2) {
-
         if (oreStack1 != null && oreStack2 != null) {
             if ((oreStack1.oreName != null) && (oreStack2.oreName != null)) {
                 return oreStack1.oreName.equalsIgnoreCase(oreStack2.oreName);
@@ -71,9 +64,12 @@ public final class OreStack implements Comparable<OreStack> {
     }
 
     public static OreStack getOreStackFrom(Collection<?> objects) {
-
         for (String oreName : OreDictionary.getOreNames()) {
-            if (Comparators.ITEM_STACK_COLLECTION_COMPARATOR.compare(FilterUtils.filterForItemStacks(objects), OreDictionary.getOres(oreName)) == 0) {
+            if (Comparators.ITEM_STACK_COLLECTION_COMPARATOR.compare(
+                    FilterUtils.filterForItemStacks(objects),
+                    OreDictionary.getOres(oreName)
+                )
+                == 0) {
                 return new OreStack(oreName, 1);
             }
         }
@@ -87,24 +83,22 @@ public final class OreStack implements Comparable<OreStack> {
 
     @Override
     public boolean equals(Object object) {
-        return object instanceof OreStack && (comparator.compare(this, (OreStack) object) == 0);
+        return object instanceof OreStack
+            && (comparator.compare(this, (OreStack) object) == 0);
     }
 
     public NBTTagCompound writeToNBT(NBTTagCompound nbtTagCompound) {
-
         nbtTagCompound.setString("oreName", oreName);
         nbtTagCompound.setInteger("stackSize", stackSize);
         return nbtTagCompound;
     }
 
     public void readFromNBT(NBTTagCompound nbtTagCompound) {
-
         this.oreName = nbtTagCompound.getString("oreName");
         this.stackSize = nbtTagCompound.getInteger("stackSize");
     }
 
     public static OreStack loadOreStackFromNBT(NBTTagCompound nbtTagCompound) {
-
         OreStack oreStack = new OreStack();
         oreStack.readFromNBT(nbtTagCompound);
         return oreStack.oreName != null ? oreStack : null;

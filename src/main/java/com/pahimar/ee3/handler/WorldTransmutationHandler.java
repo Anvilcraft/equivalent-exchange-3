@@ -2,7 +2,6 @@ package com.pahimar.ee3.handler;
 
 import com.pahimar.ee3.api.event.WorldTransmutationEvent;
 import com.pahimar.ee3.util.TransmutationHelper;
-
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,7 +10,18 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class WorldTransmutationHandler {
-    public static void handleWorldTransmutation(EntityPlayer thePlayer, int originX, int originY, int originZ, byte rangeX, byte rangeY, byte rangeZ, ForgeDirection sideHit, Block block, int metadata) {
+    public static void handleWorldTransmutation(
+        EntityPlayer thePlayer,
+        int originX,
+        int originY,
+        int originZ,
+        byte rangeX,
+        byte rangeY,
+        byte rangeZ,
+        ForgeDirection sideHit,
+        Block block,
+        int metadata
+    ) {
         //actionRequestEvent actionRequestEvent = null;
         WorldTransmutationEvent actionEvent = null;
         int lowerBoundX = -1 * rangeX / 2;
@@ -58,36 +68,79 @@ public class WorldTransmutationHandler {
         for (int x = lowerBoundX; x <= upperBoundX; ++x) {
             for (int y = lowerBoundY; y <= upperBoundY; ++y) {
                 for (int z = lowerBoundZ; z <= upperBoundZ; ++z) {
-                    actionEvent = new WorldTransmutationEvent(originX + x, originY + y, originZ + z, thePlayer.worldObj, block, metadata, sideHit, thePlayer);
+                    actionEvent = new WorldTransmutationEvent(
+                        originX + x,
+                        originY + y,
+                        originZ + z,
+                        thePlayer.worldObj,
+                        block,
+                        metadata,
+                        sideHit,
+                        thePlayer
+                    );
                     if (actionEvent != null) {
-                        //actionRequestEvent = new ActionRequestEvent(thePlayer, actionEvent, originX + x, originY + y, originZ + z, sideHit);
+                        //actionRequestEvent = new ActionRequestEvent(thePlayer,
+                        //actionEvent, originX + x, originY + y, originZ + z, sideHit);
                         //MinecraftForge.EVENT_BUS.post(actionRequestEvent);
                         //if (actionRequestEvent.allowEvent != Event.Result.DENY) {
-                            MinecraftForge.EVENT_BUS.post(actionEvent);
+                        MinecraftForge.EVENT_BUS.post(actionEvent);
                         //}
-                        /*if (actionEvent.actionResult == ActionEvent.ActionResult.SUCCESS) {
-                            if (!anySuccess) {
-                                anySuccess = true;
+                        /*if (actionEvent.actionResult ==
+                        ActionEvent.ActionResult.SUCCESS) { if (!anySuccess) { anySuccess
+                        = true;
                             }
-                            PacketDispatcher.sendPacketToAllAround((double)(originX + x), (double)(originY + y), (double)(originZ + z), 64.0, ((Entity)thePlayer).worldObj.provider.dimensionId, PacketTypeHandler.populatePacket(new PacketSpawnParticle("largesmoke", originX + x + xShift * xSign, originY + y + yShift * ySign, originZ + z + zShift * zSign, 0.0 * xSign, 0.05 * ySign, 0.0 * zSign)));
-                            PacketDispatcher.sendPacketToAllAround((double)(originX + x), (double)(originY + y), (double)(originZ + z), 64.0, ((Entity)thePlayer).worldObj.provider.dimensionId, PacketTypeHandler.populatePacket(new PacketSpawnParticle("largeexplode", originX + x + xShift * xSign, originY + y + yShift * ySign, originZ + z + zShift * zSign, 0.0 * xSign, 0.15 * ySign, 0.0 * zSign)));
+                            PacketDispatcher.sendPacketToAllAround((double)(originX + x),
+                        (double)(originY + y), (double)(originZ + z), 64.0,
+                        ((Entity)thePlayer).worldObj.provider.dimensionId,
+                        PacketTypeHandler.populatePacket(new
+                        PacketSpawnParticle("largesmoke", originX + x + xShift * xSign,
+                        originY + y + yShift * ySign, originZ + z + zShift * zSign, 0.0 *
+                        xSign, 0.05 * ySign, 0.0 * zSign)));
+                            PacketDispatcher.sendPacketToAllAround((double)(originX + x),
+                        (double)(originY + y), (double)(originZ + z), 64.0,
+                        ((Entity)thePlayer).worldObj.provider.dimensionId,
+                        PacketTypeHandler.populatePacket(new
+                        PacketSpawnParticle("largeexplode", originX + x + xShift * xSign,
+                        originY + y + yShift * ySign, originZ + z + zShift * zSign, 0.0 *
+                        xSign, 0.15 * ySign, 0.0 * zSign)));
                         }
-                        else if (actionEvent.actionResult == ActionEvent.ActionResult.FAILURE && actionEvent.world.func_72798_a(originX + x, originY + y, originZ + z) != 0) {
-                            PacketDispatcher.sendPacketToAllAround((double)(originX + x), (double)(originY + y), (double)(originZ + z), 64.0, ((Entity)thePlayer).worldObj.provider.dimensionId, PacketTypeHandler.populatePacket(new PacketSpawnParticle("reddust", originX + x + xShift * xSign, originY + y + yShift * ySign, originZ + z + zShift * zSign, 0.0 * xSign, 0.05 * ySign, 0.0 * zSign)));
-                            PacketDispatcher.sendPacketToAllAround((double)(originX + x), (double)(originY + y), (double)(originZ + z), 64.0, ((Entity)thePlayer).worldObj.provider.dimensionId, PacketTypeHandler.populatePacket(new PacketSpawnParticle("witchMagic", originX + x + xShift * xSign, originY + y + yShift * ySign, originZ + z + zShift * zSign, 0.0 * xSign, 0.05 * ySign, 0.0 * zSign)));
+                        else if (actionEvent.actionResult ==
+                        ActionEvent.ActionResult.FAILURE &&
+                        actionEvent.world.func_72798_a(originX + x, originY + y, originZ +
+                        z) != 0) { PacketDispatcher.sendPacketToAllAround((double)(originX
+                        + x), (double)(originY + y), (double)(originZ + z), 64.0,
+                        ((Entity)thePlayer).worldObj.provider.dimensionId,
+                        PacketTypeHandler.populatePacket(new
+                        PacketSpawnParticle("reddust", originX + x + xShift * xSign,
+                        originY + y + yShift * ySign, originZ + z + zShift * zSign, 0.0 *
+                        xSign, 0.05 * ySign, 0.0 * zSign)));
+                            PacketDispatcher.sendPacketToAllAround((double)(originX + x),
+                        (double)(originY + y), (double)(originZ + z), 64.0,
+                        ((Entity)thePlayer).worldObj.provider.dimensionId,
+                        PacketTypeHandler.populatePacket(new
+                        PacketSpawnParticle("witchMagic", originX + x + xShift * xSign,
+                        originY + y + yShift * ySign, originZ + z + zShift * zSign, 0.0 *
+                        xSign, 0.05 * ySign, 0.0 * zSign)));
                         }*/
                     }
                 }
             }
         }
         if (anySuccess) {
-            //PacketDispatcher.sendPacketToAllAround((double)originX, (double)originY, (double)originZ, 64.0, ((Entity)thePlayer).worldObj.provider.dimensionId, PacketTypeHandler.populatePacket(new PacketSoundEvent(thePlayer.field_71092_bJ, "mods.ee3.sound.transmute", originX, originY, originZ, 0.5f, 1.0f)));
-        }
-        else {
-            //PacketDispatcher.sendPacketToAllAround((double)originX, (double)originY, (double)originZ, 64.0, ((Entity)thePlayer).worldObj.provider.dimensionId, PacketTypeHandler.populatePacket(new PacketSoundEvent(thePlayer.field_71092_bJ, "mods.ee3.sound.fail", originX, originY, originZ, 1.5f, 1.5f)));
+            //PacketDispatcher.sendPacketToAllAround((double)originX, (double)originY,
+            //(double)originZ, 64.0, ((Entity)thePlayer).worldObj.provider.dimensionId,
+            //PacketTypeHandler.populatePacket(new
+            //PacketSoundEvent(thePlayer.field_71092_bJ, "mods.ee3.sound.transmute",
+            //originX, originY, originZ, 0.5f, 1.0f)));
+        } else {
+            //PacketDispatcher.sendPacketToAllAround((double)originX, (double)originY,
+            //(double)originZ, 64.0, ((Entity)thePlayer).worldObj.provider.dimensionId,
+            //PacketTypeHandler.populatePacket(new
+            //PacketSoundEvent(thePlayer.field_71092_bJ, "mods.ee3.sound.fail", originX,
+            //originY, originZ, 1.5f, 1.5f)));
         }
     }
-    
+
     @SubscribeEvent
     public void onWorldTransmutationEvent(WorldTransmutationEvent event) {
         Block block = event.world.getBlock(event.x, event.y, event.z);
@@ -99,20 +152,38 @@ public class WorldTransmutationHandler {
         ItemStack worldStack = new ItemStack(block, 1, meta);
         ItemStack targetStack = new ItemStack(event.block, 1, event.blockMetadata);
         ItemStack handItem = event.player.getCurrentEquippedItem();
-        if (!worldStack.isItemEqual(targetStack) && EquivalencyHandler.instance().areWorldEquivalent(worldStack, targetStack) && handItem != null && handItem.getItemDamage() <= handItem.getMaxDamage()) {
-            result = TransmutationHelper.transmuteInWorld(event.world, event.player, handItem, event.x, event.y, event.z, event.block, event.blockMetadata);
+        if (!worldStack.isItemEqual(targetStack)
+            && EquivalencyHandler.instance().areWorldEquivalent(worldStack, targetStack)
+            && handItem != null && handItem.getItemDamage() <= handItem.getMaxDamage()) {
+            result = TransmutationHelper.transmuteInWorld(
+                event.world,
+                event.player,
+                handItem,
+                event.x,
+                event.y,
+                event.z,
+                event.block,
+                event.blockMetadata
+            );
         }
         if (result) {
             //event.actionResult = ActionEvent.ActionResult.SUCCESS;
             int currentSlot = event.player.inventory.currentItem;
             handItem.damageItem(1, event.player);
             if (handItem.stackSize < 1) {
-                event.player.inventory.setInventorySlotContents(currentSlot, (ItemStack)null);
-                //PacketDispatcher.sendPacketToPlayer(PacketTypeHandler.populatePacket(new PacketItemUpdate((byte)currentSlot, (byte)0)), (Player)event.player);
-                event.player.worldObj.playSoundAtEntity(event.player, "random.break", 0.8f, 0.8f + event.player.worldObj.rand.nextFloat() * 0.4f);
+                event.player.inventory.setInventorySlotContents(
+                    currentSlot, (ItemStack) null
+                );
+                //PacketDispatcher.sendPacketToPlayer(PacketTypeHandler.populatePacket(new
+                //PacketItemUpdate((byte)currentSlot, (byte)0)), (Player)event.player);
+                event.player.worldObj.playSoundAtEntity(
+                    event.player,
+                    "random.break",
+                    0.8f,
+                    0.8f + event.player.worldObj.rand.nextFloat() * 0.4f
+                );
             }
-        }
-        else {
+        } else {
             //event.actionResult = ActionEvent.ActionResult.FAILURE;
         }
     }

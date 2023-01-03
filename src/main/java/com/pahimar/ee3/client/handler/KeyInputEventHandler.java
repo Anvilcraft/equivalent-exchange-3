@@ -14,24 +14,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
 @SideOnly(Side.CLIENT)
-public class KeyInputEventHandler
-{
-    private static Key getPressedKeybinding()
-    {
-        if (Keybindings.charge.getIsKeyPressed())
-        {
+public class KeyInputEventHandler {
+    private static Key getPressedKeybinding() {
+        if (Keybindings.charge.getIsKeyPressed()) {
             return Key.CHARGE;
-        }
-        else if (Keybindings.extra.getIsKeyPressed())
-        {
+        } else if (Keybindings.extra.getIsKeyPressed()) {
             return Key.EXTRA;
-        }
-        else if (Keybindings.release.getIsKeyPressed())
-        {
+        } else if (Keybindings.release.getIsKeyPressed()) {
             return Key.RELEASE;
-        }
-        else if (Keybindings.toggle.getIsKeyPressed())
-        {
+        } else if (Keybindings.toggle.getIsKeyPressed()) {
             return Key.TOGGLE;
         }
 
@@ -39,32 +30,32 @@ public class KeyInputEventHandler
     }
 
     @SubscribeEvent
-    public void handleKeyInputEvent(InputEvent.KeyInputEvent event)
-    {
-        if (getPressedKeybinding() == Key.UNKNOWN)
-        {
+    public void handleKeyInputEvent(InputEvent.KeyInputEvent event) {
+        if (getPressedKeybinding() == Key.UNKNOWN) {
             return;
         }
 
-        if (FMLClientHandler.instance().getClient().inGameHasFocus)
-        {
-            if (FMLClientHandler.instance().getClientPlayerEntity() != null)
-            {
-                EntityPlayer entityPlayer = FMLClientHandler.instance().getClientPlayerEntity();
+        if (FMLClientHandler.instance().getClient().inGameHasFocus) {
+            if (FMLClientHandler.instance().getClientPlayerEntity() != null) {
+                EntityPlayer entityPlayer
+                    = FMLClientHandler.instance().getClientPlayerEntity();
 
-                if (entityPlayer.getCurrentEquippedItem() != null)
-                {
-                    ItemStack currentlyEquippedItemStack = entityPlayer.getCurrentEquippedItem();
+                if (entityPlayer.getCurrentEquippedItem() != null) {
+                    ItemStack currentlyEquippedItemStack
+                        = entityPlayer.getCurrentEquippedItem();
 
-                    if (currentlyEquippedItemStack.getItem() instanceof IKeyBound)
-                    {
-                        if (entityPlayer.worldObj.isRemote)
-                        {
-                            PacketHandler.INSTANCE.sendToServer(new MessageKeyPressed(getPressedKeybinding()));
-                        }
-                        else
-                        {
-                            ((IKeyBound) currentlyEquippedItemStack.getItem()).doKeyBindingAction(entityPlayer, currentlyEquippedItemStack, getPressedKeybinding());
+                    if (currentlyEquippedItemStack.getItem() instanceof IKeyBound) {
+                        if (entityPlayer.worldObj.isRemote) {
+                            PacketHandler.INSTANCE.sendToServer(
+                                new MessageKeyPressed(getPressedKeybinding())
+                            );
+                        } else {
+                            ((IKeyBound) currentlyEquippedItemStack.getItem())
+                                .doKeyBindingAction(
+                                    entityPlayer,
+                                    currentlyEquippedItemStack,
+                                    getPressedKeybinding()
+                                );
                         }
                     }
                 }

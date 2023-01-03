@@ -11,20 +11,29 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 public class RenderUtils {
-
     public static void bindTexture(ResourceLocation texture) {
         FMLClientHandler.instance().getClient().getTextureManager().bindTexture(texture);
     }
 
-    public static int getCenteredTextOffset(FontRenderer fontRenderer, String string, int width) {
+    public static int
+    getCenteredTextOffset(FontRenderer fontRenderer, String string, int width) {
         return (width - fontRenderer.getStringWidth(string)) / 2;
     }
 
-    public static void renderItemIntoGUI(FontRenderer fontRenderer, ItemStack itemStack, int x, int y, float opacity, float scale, int zLevel) {
-
+    public static void renderItemIntoGUI(
+        FontRenderer fontRenderer,
+        ItemStack itemStack,
+        int x,
+        int y,
+        float opacity,
+        float scale,
+        int zLevel
+    ) {
         IIcon icon = itemStack.getIconIndex();
         GL11.glDisable(GL11.GL_LIGHTING);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(TextureMap.locationItemsTexture);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(
+            TextureMap.locationItemsTexture
+        );
         int overlayColour = itemStack.getItem().getColorFromItemStack(itemStack, 0);
         float red = (overlayColour >> 16 & 255) / 255.0F;
         float green = (overlayColour >> 8 & 255) / 255.0F;
@@ -32,16 +41,21 @@ public class RenderUtils {
         GL11.glColor4f(red, green, blue, opacity);
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV(x, y + 16 * scale, zLevel, icon.getMinU(), icon.getMaxV());
-        tessellator.addVertexWithUV(x + 16 * scale, y + 16 * scale, zLevel, icon.getMaxU(), icon.getMaxV());
-        tessellator.addVertexWithUV(x + 16 * scale, y, zLevel, icon.getMaxU(), icon.getMinV());
+        tessellator.addVertexWithUV(
+            x, y + 16 * scale, zLevel, icon.getMinU(), icon.getMaxV()
+        );
+        tessellator.addVertexWithUV(
+            x + 16 * scale, y + 16 * scale, zLevel, icon.getMaxU(), icon.getMaxV()
+        );
+        tessellator.addVertexWithUV(
+            x + 16 * scale, y, zLevel, icon.getMaxU(), icon.getMinV()
+        );
         tessellator.addVertexWithUV(x, y, zLevel, icon.getMinU(), icon.getMinV());
         tessellator.draw();
         GL11.glEnable(GL11.GL_LIGHTING);
     }
 
     public static void renderQuad(ResourceLocation texture) {
-
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(texture);
         Tessellator tessellator = Tessellator.instance;
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
@@ -58,8 +72,8 @@ public class RenderUtils {
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
     }
 
-    public static void renderPulsingQuad(ResourceLocation texture, float maxTransparency) {
-
+    public static void
+    renderPulsingQuad(ResourceLocation texture, float maxTransparency) {
         float pulseTransparency = (float) getPulseValue() * maxTransparency;
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(texture);
         Tessellator tessellator = Tessellator.instance;

@@ -7,17 +7,14 @@ import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 
 @SideOnly(Side.CLIENT)
-public class ModelAludel
-{
+public class ModelAludel {
     private IModelCustom modelAludel;
 
-    public ModelAludel()
-    {
+    public ModelAludel() {
         modelAludel = AdvancedModelLoader.loadModel(Models.ALUDEL);
     }
 
-    public void render()
-    {
+    public void render() {
         modelAludel.renderPart("Base");
     }
 }

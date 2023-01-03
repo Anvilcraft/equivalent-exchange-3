@@ -1,5 +1,7 @@
 package com.pahimar.ee3.network.message;
 
+import java.util.UUID;
+
 import com.pahimar.ee3.tileentity.TileEntityGlassBell;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.ByteBufUtils;
@@ -10,10 +12,8 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
-import java.util.UUID;
-
-public class MessageTileEntityGlassBell implements IMessage, IMessageHandler<MessageTileEntityGlassBell, IMessage>
-{
+public class MessageTileEntityGlassBell
+    implements IMessage, IMessageHandler<MessageTileEntityGlassBell, IMessage> {
     public int x, y, z;
     public byte orientation;
     public byte state;
@@ -21,12 +21,11 @@ public class MessageTileEntityGlassBell implements IMessage, IMessageHandler<Mes
     public UUID ownerUUID;
     public ItemStack outputItemStack;
 
-    public MessageTileEntityGlassBell()
-    {
-    }
+    public MessageTileEntityGlassBell() {}
 
-    public MessageTileEntityGlassBell(TileEntityGlassBell tileEntityGlassBell, ItemStack outputItemStack)
-    {
+    public MessageTileEntityGlassBell(
+        TileEntityGlassBell tileEntityGlassBell, ItemStack outputItemStack
+    ) {
         this.x = tileEntityGlassBell.xCoord;
         this.y = tileEntityGlassBell.yCoord;
         this.z = tileEntityGlassBell.zCoord;
@@ -38,8 +37,7 @@ public class MessageTileEntityGlassBell implements IMessage, IMessageHandler<Mes
     }
 
     @Override
-    public void fromBytes(ByteBuf buf)
-    {
+    public void fromBytes(ByteBuf buf) {
         this.x = buf.readInt();
         this.y = buf.readInt();
         this.z = buf.readInt();
@@ -47,20 +45,16 @@ public class MessageTileEntityGlassBell implements IMessage, IMessageHandler<Mes
         this.state = buf.readByte();
         int customNameLength = buf.readInt();
         this.customName = new String(buf.readBytes(customNameLength).array());
-        if (buf.readBoolean())
-        {
+        if (buf.readBoolean()) {
             this.ownerUUID = new UUID(buf.readLong(), buf.readLong());
-        }
-        else
-        {
+        } else {
             this.ownerUUID = null;
         }
         outputItemStack = ByteBufUtils.readItemStack(buf);
     }
 
     @Override
-    public void toBytes(ByteBuf buf)
-    {
+    public void toBytes(ByteBuf buf) {
         buf.writeInt(x);
         buf.writeInt(y);
         buf.writeInt(z);
@@ -68,26 +62,24 @@ public class MessageTileEntityGlassBell implements IMessage, IMessageHandler<Mes
         buf.writeByte(state);
         buf.writeInt(customName.length());
         buf.writeBytes(customName.getBytes());
-        if (ownerUUID != null)
-        {
+        if (ownerUUID != null) {
             buf.writeBoolean(true);
             buf.writeLong(ownerUUID.getMostSignificantBits());
             buf.writeLong(ownerUUID.getLeastSignificantBits());
-        }
-        else
-        {
+        } else {
             buf.writeBoolean(false);
         }
         ByteBufUtils.writeItemStack(buf, outputItemStack);
     }
 
     @Override
-    public IMessage onMessage(MessageTileEntityGlassBell message, MessageContext ctx)
-    {
-        TileEntity tileEntity = FMLClientHandler.instance().getClient().theWorld.getTileEntity(message.x, message.y, message.z);
+    public IMessage onMessage(MessageTileEntityGlassBell message, MessageContext ctx) {
+        TileEntity tileEntity
+            = FMLClientHandler.instance().getClient().theWorld.getTileEntity(
+                message.x, message.y, message.z
+            );
 
-        if (tileEntity instanceof TileEntityGlassBell)
-        {
+        if (tileEntity instanceof TileEntityGlassBell) {
             ((TileEntityGlassBell) tileEntity).setOrientation(message.orientation);
             ((TileEntityGlassBell) tileEntity).setState(message.state);
             ((TileEntityGlassBell) tileEntity).setCustomName(message.customName);
@@ -95,15 +87,26 @@ public class MessageTileEntityGlassBell implements IMessage, IMessageHandler<Mes
             ((TileEntityGlassBell) tileEntity).outputItemStack = message.outputItemStack;
 
             //NAME UPDATE
-            FMLClientHandler.instance().getClient().theWorld.func_147451_t(message.x, message.y, message.z);
+            FMLClientHandler.instance().getClient().theWorld.func_147451_t(
+                message.x, message.y, message.z
+            );
         }
 
         return null;
     }
 
     @Override
-    public String toString()
-    {
-        return String.format("MessageTileEntityGlassBell - x:%s, y:%s, z:%s, orientation:%s, state:%s, customName:%s, ownerUUID:%s, outputItemStack: %s", x, y, z, orientation, state, customName, ownerUUID, outputItemStack.toString());
+    public String toString() {
+        return String.format(
+            "MessageTileEntityGlassBell - x:%s, y:%s, z:%s, orientation:%s, state:%s, customName:%s, ownerUUID:%s, outputItemStack: %s",
+            x,
+            y,
+            z,
+            orientation,
+            state,
+            customName,
+            ownerUUID,
+            outputItemStack.toString()
+        );
     }
 }

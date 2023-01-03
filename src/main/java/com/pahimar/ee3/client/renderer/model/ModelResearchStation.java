@@ -7,17 +7,14 @@ import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 
 @SideOnly(Side.CLIENT)
-public class ModelResearchStation
-{
+public class ModelResearchStation {
     private IModelCustom modelResearchStation;
 
-    public ModelResearchStation()
-    {
+    public ModelResearchStation() {
         modelResearchStation = AdvancedModelLoader.loadModel(Models.RESEARCH_STATION);
     }
 
-    public void render()
-    {
+    public void render() {
         modelResearchStation.renderAll();
     }
 }

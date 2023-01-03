@@ -1,5 +1,7 @@
 package com.pahimar.ee3.client.gui;
 
+import java.util.*;
+
 import com.pahimar.ee3.client.gui.component.GuiComponent;
 import com.pahimar.ee3.client.util.RenderUtils;
 import com.pahimar.repackage.cofh.lib.util.helpers.StringHelper;
@@ -12,14 +14,12 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
-import java.util.*;
-
 @SideOnly(Side.CLIENT)
 public abstract class GuiBase extends GuiContainer {
-
     @SideOnly(Side.CLIENT)
     protected ResourceLocation texture;
-    protected Map<String, GuiComponent> guiComponentMap = new TreeMap<String, GuiComponent>();
+    protected Map<String, GuiComponent> guiComponentMap
+        = new TreeMap<String, GuiComponent>();
     protected String title;
     private boolean shouldDrawTitle = true;
     private String activeGuiComponentId = null;
@@ -152,7 +152,8 @@ public abstract class GuiBase extends GuiContainer {
     }
 
     public GuiComponent getTopGuiComponentAt(int positionX, int positionY) {
-        TreeSet<GuiComponent> guiComponents = new TreeSet<GuiComponent>(GuiComponent.zIndexComparator);
+        TreeSet<GuiComponent> guiComponents
+            = new TreeSet<GuiComponent>(GuiComponent.zIndexComparator);
         for (GuiComponent guiComponent : getGuiComponents()) {
             if (guiComponent.intersectsWith(positionX, positionY)) {
                 guiComponents.add(guiComponent);
@@ -171,7 +172,8 @@ public abstract class GuiBase extends GuiContainer {
     }
 
     public Collection<GuiComponent> getGuiComponentsAt(int positionX, int positionY) {
-        Collection<GuiComponent> intersectingGuiComponents = new ArrayList<GuiComponent>();
+        Collection<GuiComponent> intersectingGuiComponents
+            = new ArrayList<GuiComponent>();
 
         for (GuiComponent guiComponent : getGuiComponents()) {
             if (guiComponent.intersectsWith(positionX, positionY)) {
@@ -182,8 +184,10 @@ public abstract class GuiBase extends GuiContainer {
         return intersectingGuiComponents;
     }
 
-    public Collection<GuiComponent> getGuiComponentsAt(int positionX, int positionY, int zIndex) {
-        Collection<GuiComponent> intersectingGuiComponents = new ArrayList<GuiComponent>();
+    public Collection<GuiComponent>
+    getGuiComponentsAt(int positionX, int positionY, int zIndex) {
+        Collection<GuiComponent> intersectingGuiComponents
+            = new ArrayList<GuiComponent>();
 
         for (GuiComponent guiComponent : getGuiComponents()) {
             if (guiComponent.intersectsWith(positionX, positionY, zIndex)) {
@@ -215,7 +219,8 @@ public abstract class GuiBase extends GuiContainer {
     public void initGui() {
         super.initGui();
 
-        // A bunch of different impls clear the list of components here - no reason I can discern why at this point
+        // A bunch of different impls clear the list of components here - no reason I can
+        // discern why at this point
 
         for (GuiComponent guiComponent : getGuiComponents()) {
             guiComponent.onInit();
@@ -263,12 +268,10 @@ public abstract class GuiBase extends GuiContainer {
     }
 
     @Override
-    protected void mouseClickMove(int rawMouseX, int rawMouseY, int mouseButton, long duration) {
-
-    }
+    protected void
+    mouseClickMove(int rawMouseX, int rawMouseY, int mouseButton, long duration) {}
 
     public Slot getSlotAtPosition(int rawMouseX, int rawMouseY) {
-
         Iterator iterator = this.inventorySlots.inventorySlots.iterator();
         while (iterator.hasNext()) {
             Slot slot = (Slot) iterator.next();
@@ -281,14 +284,25 @@ public abstract class GuiBase extends GuiContainer {
     }
 
     public boolean isMouseOverSlot(Slot slot, int rawMouseX, int rawMouseY) {
-        return this.isMouseOverSlot(slot.xDisplayPosition, slot.yDisplayPosition, 16, 16, rawMouseX, rawMouseY);
+        return this.isMouseOverSlot(
+            slot.xDisplayPosition, slot.yDisplayPosition, 16, 16, rawMouseX, rawMouseY
+        );
     }
 
-
-    protected boolean isMouseOverSlot(int slotPositionX, int slotPositionY, int slotWidth, int slotHeight, int rawMouseX, int rawMouseY) {
+    protected boolean isMouseOverSlot(
+        int slotPositionX,
+        int slotPositionY,
+        int slotWidth,
+        int slotHeight,
+        int rawMouseX,
+        int rawMouseY
+    ) {
         rawMouseX -= getGuiPositionX();
         rawMouseY -= getGuiPositionX();
-        return (rawMouseX >= slotPositionX - 1) && (rawMouseX < slotPositionX + slotWidth + 1) && (rawMouseY >= slotPositionY - 1) && (rawMouseY < slotPositionY + slotHeight + 1);
+        return (rawMouseX >= slotPositionX - 1)
+            && (rawMouseX < slotPositionX + slotWidth + 1)
+            && (rawMouseY >= slotPositionY - 1)
+            && (rawMouseY < slotPositionY + slotHeight + 1);
     }
 
     @Override
@@ -299,7 +313,9 @@ public abstract class GuiBase extends GuiContainer {
 
         for (GuiComponent guiComponent : getGuiComponents()) {
             if (guiComponent.intersectsWith(getAdjustedMouseX(), getAdjustedMouseY())) {
-                guiComponent.onMouseOver(getAdjustedMouseX(), getAdjustedMouseY(), partialTicks);
+                guiComponent.onMouseOver(
+                    getAdjustedMouseX(), getAdjustedMouseY(), partialTicks
+                );
             }
         }
     }
@@ -308,7 +324,14 @@ public abstract class GuiBase extends GuiContainer {
     protected void drawGuiContainerForegroundLayer(int rawMouseX, int rawMouseY) {
         // Draw text
         if (shouldDrawTitle && title != null) {
-            getFontRenderer().drawString(StringHelper.localize(title), RenderUtils.getCenteredTextOffset(getFontRenderer(), StringHelper.localize(title), getGuiWidth()), 6, 0x404040);
+            getFontRenderer().drawString(
+                StringHelper.localize(title),
+                RenderUtils.getCenteredTextOffset(
+                    getFontRenderer(), StringHelper.localize(title), getGuiWidth()
+                ),
+                6,
+                0x404040
+            );
         }
 
         // Draw components
@@ -316,14 +339,17 @@ public abstract class GuiBase extends GuiContainer {
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int rawMouseX, int rawMouseY) {
+    protected void
+    drawGuiContainerBackgroundLayer(float partialTicks, int rawMouseX, int rawMouseY) {
         // Draw background
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         if (texture != null) {
             RenderUtils.bindTexture(texture);
             int xStart = (getScreenWidth() - getGuiWidth()) / 2;
             int yStart = (getScreenHeight() - getGuiHeight()) / 2;
-            this.drawTexturedModalRect(xStart, yStart, 0, 0, getGuiWidth(), getGuiHeight());
+            this.drawTexturedModalRect(
+                xStart, yStart, 0, 0, getGuiWidth(), getGuiHeight()
+            );
         }
 
         // Draw components
@@ -331,11 +357,11 @@ public abstract class GuiBase extends GuiContainer {
         GL11.glTranslatef(getGuiPositionX(), getGuiPositionY(), 0.0F);
         drawComponents(false, rawMouseX, rawMouseY, partialTicks);
         GL11.glPopMatrix();
-
     }
 
-    protected void drawComponents(boolean drawForeground, int rawMouseX, int rawMouseY, float partialTicks) {
-
+    protected void drawComponents(
+        boolean drawForeground, int rawMouseX, int rawMouseY, float partialTicks
+    ) {
         for (GuiComponent guiComponent : getGuiComponents()) {
             if (guiComponent.isVisible()) {
                 if (drawForeground) {

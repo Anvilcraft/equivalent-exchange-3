@@ -1,5 +1,7 @@
 package com.pahimar.ee3.util.serialize;
 
+import java.lang.reflect.Type;
+
 import com.google.gson.*;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTBase;
@@ -9,16 +11,15 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
-import java.lang.reflect.Type;
-
-public class FluidStackSerializer implements JsonSerializer<FluidStack>, JsonDeserializer<FluidStack> {
-
+public class FluidStackSerializer
+    implements JsonSerializer<FluidStack>, JsonDeserializer<FluidStack> {
     private static final String NAME = "name";
     private static final String TAG_COMPOUND = "tagCompound";
 
     @Override
-    public FluidStack deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-
+    public FluidStack
+    deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+        throws JsonParseException {
         if (json.isJsonObject()) {
             JsonObject jsonObject = json.getAsJsonObject();
 
@@ -29,18 +30,17 @@ public class FluidStackSerializer implements JsonSerializer<FluidStack>, JsonDes
                 name = jsonObject.getAsJsonPrimitive(NAME).getAsString();
             }
 
-            if (jsonObject.has(TAG_COMPOUND) && jsonObject.get(TAG_COMPOUND).isJsonPrimitive()) {
-
+            if (jsonObject.has(TAG_COMPOUND)
+                && jsonObject.get(TAG_COMPOUND).isJsonPrimitive()) {
                 try {
-                    NBTBase nbtBase = JsonToNBT.func_150315_a(jsonObject.get(TAG_COMPOUND).getAsString());
+                    NBTBase nbtBase = JsonToNBT.func_150315_a(
+                        jsonObject.get(TAG_COMPOUND).getAsString()
+                    );
                     if (nbtBase instanceof NBTTagCompound) {
                         tagCompound = (NBTTagCompound) nbtBase;
                     }
-                }
-                catch (NBTException e) {
-                }
+                } catch (NBTException e) {}
             }
-
 
             if (name != null) {
                 Fluid fluid = FluidRegistry.getFluid(name);
@@ -61,8 +61,8 @@ public class FluidStackSerializer implements JsonSerializer<FluidStack>, JsonDes
     }
 
     @Override
-    public JsonElement serialize(FluidStack src, Type typeOfSrc, JsonSerializationContext context) {
-
+    public JsonElement
+    serialize(FluidStack src, Type typeOfSrc, JsonSerializationContext context) {
         if (src != null) {
             JsonObject jsonObject = new JsonObject();
 

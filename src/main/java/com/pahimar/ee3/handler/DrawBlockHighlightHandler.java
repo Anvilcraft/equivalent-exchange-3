@@ -2,7 +2,6 @@ package com.pahimar.ee3.handler;
 
 import com.pahimar.ee3.item.ITransmutationStone;
 import com.pahimar.ee3.util.TransmutationHelper;
-
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
@@ -15,40 +14,45 @@ import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 public class DrawBlockHighlightHandler {
     private static int pulse;
     private static boolean doInc;
-    
+
     @SubscribeEvent
     public void onDrawBlockHighlightEvent(final DrawBlockHighlightEvent event) {
         final Minecraft minecraft = FMLClientHandler.instance().getClient();
-        if (event.currentItem != null && event.currentItem.getItem() instanceof ITransmutationStone && event.target.typeOfHit == MovingObjectType.BLOCK) {
-            TransmutationHelper.updateTargetBlock(event.player.worldObj, event.target.blockX, event.target.blockY, event.target.blockZ);
-            /*if (Minecraft.isGuiEnabled() && minecraft.inGameHasFocus && ConfigurationSettings.ENABLE_OVERLAY_WORLD_TRANSMUTATION) {
+        if (event.currentItem != null
+            && event.currentItem.getItem() instanceof ITransmutationStone
+            && event.target.typeOfHit == MovingObjectType.BLOCK) {
+            TransmutationHelper.updateTargetBlock(
+                event.player.worldObj,
+                event.target.blockX,
+                event.target.blockY,
+                event.target.blockZ
+            );
+            /*if (Minecraft.isGuiEnabled() && minecraft.inGameHasFocus &&
+            ConfigurationSettings.ENABLE_OVERLAY_WORLD_TRANSMUTATION) {
                 this.drawInWorldTransmutationOverlay(event);
             }*/
         }
     }
-    
+
     /*public void drawInWorldTransmutationOverlay(final DrawBlockHighlightEvent event) {
         final double x = event.target.blockX + 0.5f;
         final double y = event.target.blockY + 0.5f;
         final double z = event.target.blockZ + 0.5f;
-        final double iPX = ((Entity)event.player).prevPosX + (((Entity)event.player).posX - ((Entity)event.player).prevPosX) * event.partialTicks;
-        final double iPY = ((Entity)event.player).prevPosY + (((Entity)event.player).posY - ((Entity)event.player).prevPosY) * event.partialTicks;
-        final double iPZ = ((Entity)event.player).prevPosZ + (((Entity)event.player).posZ - ((Entity)event.player).prevPosZ) * event.partialTicks;
-        final int texture = event.context.renderEngine.func_78341_b("/mods/ee3/textures/effects/noise.png");
-        float xScale = 1.0f;
-        float yScale = 1.0f;
-        float zScale = 1.0f;
-        float xShift = 0.1f;
-        float yShift = 0.1f;
-        float zShift = 0.1f;
-        int itemChargeLevel = 0;
-        if (event.currentItem.getItem() instanceof IChargeable) {
-            itemChargeLevel = ((IChargeable)event.currentItem.getItem()).getCharge(event.currentItem);
+        final double iPX = ((Entity)event.player).prevPosX + (((Entity)event.player).posX
+    - ((Entity)event.player).prevPosX) * event.partialTicks; final double iPY =
+    ((Entity)event.player).prevPosY + (((Entity)event.player).posY -
+    ((Entity)event.player).prevPosY) * event.partialTicks; final double iPZ =
+    ((Entity)event.player).prevPosZ + (((Entity)event.player).posZ -
+    ((Entity)event.player).prevPosZ) * event.partialTicks; final int texture =
+    event.context.renderEngine.func_78341_b("/mods/ee3/textures/effects/noise.png"); float
+    xScale = 1.0f; float yScale = 1.0f; float zScale = 1.0f; float xShift = 0.1f; float
+    yShift = 0.1f; float zShift = 0.1f; int itemChargeLevel = 0; if
+    (event.currentItem.getItem() instanceof IChargeable) { itemChargeLevel =
+    ((IChargeable)event.currentItem.getItem()).getCharge(event.currentItem);
         }
         final int chargeLevel = 1 + itemChargeLevel * 2;
-        final ForgeDirection sideHit = ForgeDirection.getOrientation(event.target.sideHit);
-        switch (sideHit) {
-            case UP: {
+        final ForgeDirection sideHit =
+    ForgeDirection.getOrientation(event.target.sideHit); switch (sideHit) { case UP: {
                 xScale = chargeLevel + 0.1f;
                 zScale = chargeLevel + 0.1f;
                 xShift = 0.0f;
@@ -102,8 +106,8 @@ public class DrawBlockHighlightHandler {
             GL11.glPushMatrix();
             GL11.glTranslated(-iPX + x + xShift, -iPY + y + yShift, -iPZ + z + zShift);
             GL11.glScalef(1.0f * xScale, 1.0f * yScale, 1.0f * zScale);
-            GL11.glRotatef(90.0f, (float)forgeDir.offsetX, (float)forgeDir.offsetY, (float)forgeDir.offsetZ);
-            GL11.glTranslated(0.0, 0.0, (double)(0.5f * zCorrection));
+            GL11.glRotatef(90.0f, (float)forgeDir.offsetX, (float)forgeDir.offsetY,
+    (float)forgeDir.offsetZ); GL11.glTranslated(0.0, 0.0, (double)(0.5f * zCorrection));
             GL11.glClear(256);
             renderPulsingQuad(texture, 0.75f);
             GL11.glPopMatrix();
@@ -111,7 +115,7 @@ public class DrawBlockHighlightHandler {
         GL11.glEnable(2884);
         GL11.glDepthMask(true);
     }
-    
+
     public static void renderPulsingQuad(final int texture, final float maxTransparency) {
         final float pulseTransparency = getPulseValue() * maxTransparency / 3000.0f;
         GL11.glBindTexture(3553, texture);
@@ -130,7 +134,7 @@ public class DrawBlockHighlightHandler {
         GL11.glDisable(3042);
         GL11.glDisable(32826);
     }
-    
+
     private static int getPulseValue() {
         if (DrawBlockHighlightHandler.doInc) {
             DrawBlockHighlightHandler.pulse += 8;
@@ -146,7 +150,7 @@ public class DrawBlockHighlightHandler {
         }
         return DrawBlockHighlightHandler.pulse;
     }*/
-    
+
     static {
         DrawBlockHighlightHandler.pulse = 0;
         DrawBlockHighlightHandler.doInc = true;

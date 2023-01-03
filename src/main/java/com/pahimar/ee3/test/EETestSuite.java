@@ -1,20 +1,18 @@
 package com.pahimar.ee3.test;
 
+import java.io.File;
+
 import com.pahimar.ee3.init.ModBlocks;
 import com.pahimar.ee3.init.ModItems;
 import com.pahimar.ee3.reference.Files;
 import net.minecraft.item.ItemStack;
 
-import java.io.File;
-
 public class EETestSuite extends EnergyValueTestSuite {
-
     public EETestSuite() {
         super();
     }
 
     public EETestSuite build() {
-
         add(ModBlocks.calcinator, 772);
         add(ModBlocks.aludel, 1794);
         add(ModBlocks.glassBell, 7);

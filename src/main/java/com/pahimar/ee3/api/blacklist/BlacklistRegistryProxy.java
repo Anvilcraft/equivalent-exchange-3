@@ -1,13 +1,12 @@
 package com.pahimar.ee3.api.blacklist;
 
+import java.util.Set;
+
 import com.pahimar.ee3.EquivalentExchange3;
 import com.pahimar.ee3.exchange.WrappedStack;
 import cpw.mods.fml.common.Mod;
 
-import java.util.Set;
-
 public class BlacklistRegistryProxy {
-
     /**
      * TODO Finis JavaDoc
      *
@@ -33,14 +32,12 @@ public class BlacklistRegistryProxy {
      * @return
      */
     public static Set<WrappedStack> getBlacklist(Blacklist blacklist) {
-
         init();
 
         if (ee3Mod != null) {
             if (blacklist == Blacklist.KNOWLEDGE) {
                 return EE3Wrapper.ee3mod.getBlacklistRegistry().getKnowledgeBlacklist();
-            }
-            else if (blacklist == Blacklist.EXCHANGE) {
+            } else if (blacklist == Blacklist.EXCHANGE) {
                 return EE3Wrapper.ee3mod.getBlacklistRegistry().getExchangeBlacklist();
             }
         }
@@ -55,7 +52,6 @@ public class BlacklistRegistryProxy {
      * @return
      */
     public static boolean isLearnable(Object object) {
-
         init();
 
         if (ee3Mod != null) {
@@ -72,7 +68,6 @@ public class BlacklistRegistryProxy {
      * @return
      */
     public static boolean isExchangeable(Object object) {
-
         init();
 
         if (ee3Mod != null) {
@@ -125,7 +120,6 @@ public class BlacklistRegistryProxy {
      * @param blacklist
      */
     public static void addToBlacklist(Object object, Blacklist blacklist) {
-
         init();
 
         if (ee3Mod != null) {
@@ -140,30 +134,25 @@ public class BlacklistRegistryProxy {
      * @param blacklist
      */
     public static void removeFromBlacklist(Object object, Blacklist blacklist) {
-
         init();
 
         if (ee3Mod != null) {
-            EE3Wrapper.ee3mod.getBlacklistRegistry().removeFromBlacklist(object, blacklist);
+            EE3Wrapper.ee3mod.getBlacklistRegistry().removeFromBlacklist(
+                object, blacklist
+            );
         }
     }
 
     @Mod.Instance("EE3")
     private static Object ee3Mod;
 
-    private static class EE3Wrapper {
-        private static EquivalentExchange3 ee3mod;
-    }
+    private static class EE3Wrapper { private static EquivalentExchange3 ee3mod; }
 
     private static void init() {
-
         if (ee3Mod != null) {
             BlacklistRegistryProxy.EE3Wrapper.ee3mod = (EquivalentExchange3) ee3Mod;
         }
     }
 
-    public enum Blacklist {
-        KNOWLEDGE,
-        EXCHANGE
-    }
+    public enum Blacklist { KNOWLEDGE, EXCHANGE }
 }

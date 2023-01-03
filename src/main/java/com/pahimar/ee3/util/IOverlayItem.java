@@ -1,5 +1,3 @@
 package com.pahimar.ee3.util;
 
-public interface IOverlayItem
-{
-}
+public interface IOverlayItem {}

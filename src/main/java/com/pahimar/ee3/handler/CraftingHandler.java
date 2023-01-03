@@ -7,8 +7,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import net.minecraft.item.crafting.CraftingManager;
 
-public class CraftingHandler
-{
+public class CraftingHandler {
     public static void init() {
         // Add in the ability to dye Alchemical Bags
         CraftingManager.getInstance().getRecipeList().add(new RecipesAlchemicalBagDyes());

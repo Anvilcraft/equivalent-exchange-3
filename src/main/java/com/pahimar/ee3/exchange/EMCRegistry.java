@@ -4,17 +4,13 @@ import java.util.Set;
 
 import com.pahimar.ee3.api.exchange.EnergyValue;
 import com.pahimar.ee3.api.exchange.EnergyValueRegistryProxy.Phase;
-
-import moze_intel.projecte.api.proxy.IEMCProxy;
-
 import com.pahimar.ee3.api.exchange.IEnergyValueRegistry;
-
+import moze_intel.projecte.api.proxy.IEMCProxy;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class EMCRegistry implements IEnergyValueRegistry {
-
     public static EMCRegistry INSTANCE = null;
     private IEMCProxy emc;
 
@@ -25,7 +21,8 @@ public class EMCRegistry implements IEnergyValueRegistry {
     @Override
     public boolean hasEnergyValue(Object object, boolean strict) {
         WrappedStack wrapped = WrappedStack.wrap(object);
-        if (wrapped == null) return false;
+        if (wrapped == null)
+            return false;
         object = wrapped.getWrappedObject();
         if (object instanceof Item) {
             return emc.hasValue((Item) object);
@@ -40,7 +37,8 @@ public class EMCRegistry implements IEnergyValueRegistry {
     @Override
     public EnergyValue getEnergyValue(Object object, boolean strict) {
         WrappedStack wrapped = WrappedStack.wrap(object);
-        if (wrapped == null) return null;
+        if (wrapped == null)
+            return null;
         object = wrapped.getWrappedObject();
         if (object instanceof Item) {
             return new EnergyValue(emc.getValue((Item) object));
@@ -55,9 +53,11 @@ public class EMCRegistry implements IEnergyValueRegistry {
     @Override
     public EnergyValue getEnergyValueForStack(Object object, boolean strict) {
         WrappedStack wrapped = WrappedStack.wrap(object);
-        if (wrapped == null) return null;
+        if (wrapped == null)
+            return null;
         EnergyValue value = getEnergyValue(object, strict);
-        if (value == null) return null;
+        if (value == null)
+            return null;
         return new EnergyValue(wrapped.getStackSize() * value.getValue());
     }
 
@@ -68,14 +68,18 @@ public class EMCRegistry implements IEnergyValueRegistry {
 
     @Override
     public void setEnergyValue(Object object, EnergyValue energyValue, Phase phase) {
-        if (phase != Phase.PRE_CALCULATION) return;
+        if (phase != Phase.PRE_CALCULATION)
+            return;
         if (object instanceof Item) {
-            emc.registerCustomEMC(new ItemStack((Item) object), (int) energyValue.getValue());
+            emc.registerCustomEMC(
+                new ItemStack((Item) object), (int) energyValue.getValue()
+            );
         } else if (object instanceof ItemStack) {
             emc.registerCustomEMC((ItemStack) object, (int) energyValue.getValue());
         } else if (object instanceof Block) {
-            emc.registerCustomEMC(new ItemStack((Block) object), (int) energyValue.getValue());
+            emc.registerCustomEMC(
+                new ItemStack((Block) object), (int) energyValue.getValue()
+            );
         }
     }
-    
 }

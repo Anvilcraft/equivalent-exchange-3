@@ -1,5 +1,7 @@
 package com.pahimar.ee3.inventory;
 
+import java.util.*;
+
 import com.pahimar.ee3.knowledge.PlayerKnowledge;
 import com.pahimar.ee3.reference.Comparators;
 import com.pahimar.ee3.reference.Names;
@@ -7,15 +9,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
-import java.util.*;
-
 public class InventoryTransmutationTablet implements IInventory {
-
     private ItemStack[] inventory;
     private Set<ItemStack> knownTransmutations;
 
-    public InventoryTransmutationTablet()
-    {
+    public InventoryTransmutationTablet() {
         this(Collections.emptySet());
     }
 
@@ -24,7 +22,6 @@ public class InventoryTransmutationTablet implements IInventory {
     }
 
     public InventoryTransmutationTablet(Collection<ItemStack> knownTransmutations) {
-
         inventory = new ItemStack[30];
 
         this.knownTransmutations = new TreeSet<>(Comparators.ID_COMPARATOR);
@@ -33,12 +30,12 @@ public class InventoryTransmutationTablet implements IInventory {
             this.knownTransmutations.addAll(knownTransmutations);
         }
 
-        List<ItemStack> knownTransmutationsList = new ArrayList<>(this.knownTransmutations);
+        List<ItemStack> knownTransmutationsList
+            = new ArrayList<>(this.knownTransmutations);
 
         if (knownTransmutationsList.size() <= 30) {
             inventory = knownTransmutationsList.toArray(inventory);
-        }
-        else {
+        } else {
             inventory = knownTransmutationsList.subList(0, 30).toArray(inventory);
         }
 
@@ -56,7 +53,6 @@ public class InventoryTransmutationTablet implements IInventory {
 
     @Override
     public ItemStack getStackInSlot(int slotIndex) {
-
         if (slotIndex < getSizeInventory()) {
             return inventory[slotIndex];
         }
@@ -65,19 +61,17 @@ public class InventoryTransmutationTablet implements IInventory {
     }
 
     /**
-     * Removes from an inventory slot (first arg) up to a specified number (second arg) of items and returns them in a
-     * new stack.
+     * Removes from an inventory slot (first arg) up to a specified number (second arg) of
+     * items and returns them in a new stack.
      */
     @Override
     public ItemStack decrStackSize(int slotIndex, int decrementAmount) {
-
         ItemStack itemStack = getStackInSlot(slotIndex);
 
         if (itemStack != null) {
             if (itemStack.stackSize <= decrementAmount) {
                 setInventorySlotContents(slotIndex, null);
-            }
-            else {
+            } else {
                 itemStack = itemStack.splitStack(decrementAmount);
 
                 if (itemStack.stackSize == 0) {
@@ -93,30 +87,23 @@ public class InventoryTransmutationTablet implements IInventory {
 
     @Override
     public ItemStack getStackInSlotOnClosing(int slotIndex) {
-
         if (getStackInSlot(slotIndex) != null) {
-
             ItemStack itemStack = inventory[slotIndex];
             inventory[slotIndex] = null;
             return itemStack;
-        }
-        else {
+        } else {
             return null;
         }
     }
 
     @Override
     public void setInventorySlotContents(int slotIndex, ItemStack itemStack) {
-
         if (slotIndex < inventory.length) {
-
             if (itemStack != null) {
-
                 ItemStack copiedItemStack = itemStack.copy();
                 copiedItemStack.stackSize = 1;
                 inventory[slotIndex] = copiedItemStack;
-            }
-            else {
+            } else {
                 inventory[slotIndex] = itemStack;
             }
         }

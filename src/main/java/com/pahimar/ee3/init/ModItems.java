@@ -6,8 +6,7 @@ import com.pahimar.ee3.reference.Reference;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 @GameRegistry.ObjectHolder(Reference.MOD_ID)
-public class ModItems
-{
+public class ModItems {
     public static final ItemEE alchemicalBag = new ItemAlchemicalBag();
     public static final ItemEE alchemicalDust = new ItemAlchemicalDust();
     public static final ItemEE alchemicalFuel = new ItemAlchemicalFuel();
@@ -19,8 +18,7 @@ public class ModItems
     public static final ItemEE chalk = new ItemChalk();
     public static final ItemEE alchenomicon = new ItemAlchenomicon();
 
-    public static void init()
-    {
+    public static void init() {
         GameRegistry.registerItem(alchemicalBag, Names.Items.ALCHEMICAL_BAG);
         GameRegistry.registerItem(alchemicalDust, Names.Items.ALCHEMICAL_DUST);
         GameRegistry.registerItem(alchemicalFuel, Names.Items.ALCHEMICAL_FUEL);
@@ -30,6 +28,8 @@ public class ModItems
         GameRegistry.registerItem(stonePhilosophers, Names.Items.PHILOSOPHERS_STONE);
         GameRegistry.registerItem(chalk, Names.Items.CHALK);
         GameRegistry.registerItem(alchemicalUpgrade, Names.Items.ALCHEMICAL_UPGRADE);
-        GameRegistry.registerItem(alchenomicon, Names.Items.ALCHENOMICON, Names.Items.ALCHEMICAL_TOME);
+        GameRegistry.registerItem(
+            alchenomicon, Names.Items.ALCHENOMICON, Names.Items.ALCHEMICAL_TOME
+        );
     }
 }

@@ -4,7 +4,6 @@ import com.pahimar.ee3.api.blacklist.BlacklistRegistryProxy;
 
 @Deprecated
 public final class AbilityRegistryProxy {
-
     /**
      * @deprecated See {@link BlacklistRegistryProxy#isLearnable(Object)}
      */
@@ -61,9 +60,5 @@ public final class AbilityRegistryProxy {
         // NOOP
     }
 
-    public enum Abilities {
-        NOT_LEARNABLE,
-        NOT_RECOVERABLE,
-        ALL
-    }
+    public enum Abilities { NOT_LEARNABLE, NOT_RECOVERABLE, ALL }
 }

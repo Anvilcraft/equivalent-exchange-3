@@ -1,21 +1,19 @@
 package com.pahimar.ee3.test;
 
+import java.io.File;
+
 import com.pahimar.ee3.reference.Files;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.io.File;
-
 public class VanillaTestSuite extends EnergyValueTestSuite {
-
     public VanillaTestSuite() {
         super();
     }
 
     public VanillaTestSuite build() {
-
         addBuildingBlocksTabTestCases();
         addDecorationBlocksTabTestCases();
         addRedstoneTabTestCases();
@@ -31,7 +29,6 @@ public class VanillaTestSuite extends EnergyValueTestSuite {
     }
 
     private void addBuildingBlocksTabTestCases() {
-
         add(Blocks.stone, 1);
         add(Blocks.grass, 1);
         add(Blocks.dirt, 1);
@@ -175,7 +172,6 @@ public class VanillaTestSuite extends EnergyValueTestSuite {
     }
 
     private void addDecorationBlocksTabTestCases() {
-
         add(new ItemStack(Blocks.sapling, 1, 0), 32);
         add(new ItemStack(Blocks.sapling, 1, 1), 32);
         add(new ItemStack(Blocks.sapling, 1, 2), 32);
@@ -283,7 +279,6 @@ public class VanillaTestSuite extends EnergyValueTestSuite {
     }
 
     private void addRedstoneTabTestCases() {
-
         add(Blocks.dispenser, 87);
         add(Blocks.noteblock, 96);
         add(Blocks.sticky_piston, 340);
@@ -313,7 +308,6 @@ public class VanillaTestSuite extends EnergyValueTestSuite {
     }
 
     private void addTransportationTabTestCases() {
-
         add(Blocks.golden_rail, 2054);
         add(Blocks.detector_rail, 261.667);
         add(Blocks.rail, 96.25);
@@ -329,7 +323,6 @@ public class VanillaTestSuite extends EnergyValueTestSuite {
     }
 
     private void addMiscellaneousTabTestCases() {
-
         add(Blocks.beacon, 24773);
         add(Items.bucket, 768);
         add(Items.water_bucket, 769);
@@ -390,7 +383,6 @@ public class VanillaTestSuite extends EnergyValueTestSuite {
     }
 
     private void addFoodstuffsTabTestCases() {
-
         add(Items.apple, 24);
         add(Items.mushroom_stew, 70);
         add(Items.bread, 72);
@@ -422,7 +414,6 @@ public class VanillaTestSuite extends EnergyValueTestSuite {
     }
 
     private void addToolsTabTestCases() {
-
         add(Items.iron_shovel, 264);
         add(Items.iron_pickaxe, 776);
         add(Items.iron_axe, 776);
@@ -454,7 +445,6 @@ public class VanillaTestSuite extends EnergyValueTestSuite {
     }
 
     private void addCombatTabTestCases() {
-
         add(Items.bow, 48);
         add(Items.arrow, 14);
         add(Items.iron_sword, 516);
@@ -485,7 +475,6 @@ public class VanillaTestSuite extends EnergyValueTestSuite {
     }
 
     private void addBrewingTabTestCases() {
-
         add(Items.ghast_tear, 4096);
         add(new ItemStack(Items.potionitem, 1, 0), 2);
         add(new ItemStack(Items.potionitem, 1, 16), 8.667);
@@ -554,7 +543,6 @@ public class VanillaTestSuite extends EnergyValueTestSuite {
     }
 
     private void addMaterialsTabTestCases() {
-
         add(new ItemStack(Items.coal, 1, 0), 32);
         add(new ItemStack(Items.coal, 1, 1), 32);
         add(Items.diamond, 8192);
@@ -603,6 +591,8 @@ public class VanillaTestSuite extends EnergyValueTestSuite {
     }
 
     public void save() {
-        this.save(new File(Files.globalTestDirectory, "minecraft-v1710-vanilla-test-suite.json"));
+        this.save(
+            new File(Files.globalTestDirectory, "minecraft-v1710-vanilla-test-suite.json")
+        );
     }
 }

@@ -6,19 +6,23 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 
-public class MessageSingleParticleEvent implements IMessage, IMessageHandler<MessageSingleParticleEvent, IMessage>
-{
+public class MessageSingleParticleEvent
+    implements IMessage, IMessageHandler<MessageSingleParticleEvent, IMessage> {
     private String particleName;
     private double xCoord, yCoord, zCoord;
     private double xVelocity, yVelocity, zVelocity;
 
-    public MessageSingleParticleEvent()
-    {
+    public MessageSingleParticleEvent() {}
 
-    }
-
-    public MessageSingleParticleEvent(String particleName, double xCoord, double yCoord, double zCoord, double xVelocity, double yVelocity, double zVelocity)
-    {
+    public MessageSingleParticleEvent(
+        String particleName,
+        double xCoord,
+        double yCoord,
+        double zCoord,
+        double xVelocity,
+        double yVelocity,
+        double zVelocity
+    ) {
         this.particleName = particleName;
         this.xCoord = xCoord;
         this.yCoord = yCoord;
@@ -29,8 +33,7 @@ public class MessageSingleParticleEvent implements IMessage, IMessageHandler<Mes
     }
 
     @Override
-    public void fromBytes(ByteBuf byteBuf)
-    {
+    public void fromBytes(ByteBuf byteBuf) {
         int particleNameLength = byteBuf.readInt();
         this.particleName = new String(byteBuf.readBytes(particleNameLength).array());
         this.xCoord = byteBuf.readDouble();
@@ -42,8 +45,7 @@ public class MessageSingleParticleEvent implements IMessage, IMessageHandler<Mes
     }
 
     @Override
-    public void toBytes(ByteBuf byteBuf)
-    {
+    public void toBytes(ByteBuf byteBuf) {
         byteBuf.writeInt(particleName.length());
         byteBuf.writeBytes(particleName.getBytes());
         byteBuf.writeDouble(xCoord);
@@ -55,9 +57,16 @@ public class MessageSingleParticleEvent implements IMessage, IMessageHandler<Mes
     }
 
     @Override
-    public IMessage onMessage(MessageSingleParticleEvent message, MessageContext ctx)
-    {
-        EquivalentExchange3.proxy.spawnParticle(message.particleName, message.xCoord, message.yCoord, message.zCoord, message.xVelocity, message.yVelocity, message.zVelocity);
+    public IMessage onMessage(MessageSingleParticleEvent message, MessageContext ctx) {
+        EquivalentExchange3.proxy.spawnParticle(
+            message.particleName,
+            message.xCoord,
+            message.yCoord,
+            message.zCoord,
+            message.xVelocity,
+            message.yVelocity,
+            message.zVelocity
+        );
         return null;
     }
 }

@@ -1,5 +1,12 @@
 package com.pahimar.ee3.knowledge;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Collection;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
 import com.google.gson.JsonSyntaxException;
 import com.pahimar.ee3.api.blacklist.BlacklistRegistryProxy;
 import com.pahimar.ee3.handler.ConfigurationHandler;
@@ -14,15 +21,7 @@ import net.minecraft.item.ItemStack;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Collection;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
-
 public class PlayerKnowledgeRegistry {
-
     public static final PlayerKnowledgeRegistry INSTANCE = new PlayerKnowledgeRegistry();
 
     private final TreeMap<String, PlayerKnowledge> playerKnowledgeMap;
@@ -30,13 +29,18 @@ public class PlayerKnowledgeRegistry {
 
     public static File templatePlayerKnowledgeFile;
 
-    public static final Marker PLAYER_KNOWLEDGE_MARKER = MarkerManager.getMarker("EE3_PLAYER_KNOWLEDGE", LogHelper.MOD_MARKER);
-    public static final Marker PLAYER_LEARN_KNOWLEDGE = MarkerManager.getMarker("EE3_PLAYER_TEACH_KNOWLEDGE", PLAYER_KNOWLEDGE_MARKER);
-    public static final Marker PLAYER_FORGET_KNOWLEDGE_MARKER = MarkerManager.getMarker("EE3_PLAYER_FORGET_KNOWLEDGE", PLAYER_KNOWLEDGE_MARKER);
-    public static final Marker PLAYER_FORGET_ALL_KNOWLEDGE_MARKER = MarkerManager.getMarker("EE3_PLAYER_FORGET_ALL_KNOWLEDGE", PLAYER_FORGET_KNOWLEDGE_MARKER);
+    public static final Marker PLAYER_KNOWLEDGE_MARKER
+        = MarkerManager.getMarker("EE3_PLAYER_KNOWLEDGE", LogHelper.MOD_MARKER);
+    public static final Marker PLAYER_LEARN_KNOWLEDGE
+        = MarkerManager.getMarker("EE3_PLAYER_TEACH_KNOWLEDGE", PLAYER_KNOWLEDGE_MARKER);
+    public static final Marker PLAYER_FORGET_KNOWLEDGE_MARKER
+        = MarkerManager.getMarker("EE3_PLAYER_FORGET_KNOWLEDGE", PLAYER_KNOWLEDGE_MARKER);
+    public static final Marker PLAYER_FORGET_ALL_KNOWLEDGE_MARKER
+        = MarkerManager.getMarker(
+            "EE3_PLAYER_FORGET_ALL_KNOWLEDGE", PLAYER_FORGET_KNOWLEDGE_MARKER
+        );
 
     private PlayerKnowledgeRegistry() {
-
         playerKnowledgeMap = new TreeMap<>(Comparators.STRING_COMPARATOR);
         templatePlayerKnowledge = new PlayerKnowledge();
     }
@@ -60,7 +64,6 @@ public class PlayerKnowledgeRegistry {
      * @return
      */
     public boolean doesPlayerKnow(String playerName, Object object) {
-
         if (getPlayerKnowledge(playerName) != null) {
             return getPlayerKnowledge(playerName).isKnown(object);
         }
@@ -76,7 +79,6 @@ public class PlayerKnowledgeRegistry {
      * @return
      */
     public boolean canPlayerLearn(EntityPlayer entityPlayer, Object object) {
-
         if (entityPlayer != null) {
             return canPlayerLearn(entityPlayer.getDisplayName(), object);
         }
@@ -92,9 +94,9 @@ public class PlayerKnowledgeRegistry {
      * @return
      */
     public boolean canPlayerLearn(String playerName, Object object) {
-
         if (getPlayerKnowledge(playerName) != null) {
-            return !getPlayerKnowledge(playerName).isKnown(object) && BlacklistRegistryProxy.isLearnable(object);
+            return !getPlayerKnowledge(playerName).isKnown(object)
+                && BlacklistRegistryProxy.isLearnable(object);
         }
 
         return false;
@@ -107,7 +109,6 @@ public class PlayerKnowledgeRegistry {
      * @param object
      */
     public void teachPlayer(EntityPlayer entityPlayer, Object object) {
-
         if (entityPlayer != null) {
             teachPlayer(entityPlayer.getDisplayName(), object);
         }
@@ -120,10 +121,11 @@ public class PlayerKnowledgeRegistry {
      * @param object
      */
     public void teachPlayer(String playerName, Object object) {
-
         if (getPlayerKnowledge(playerName) != null) {
             getPlayerKnowledge(playerName).learn(object);
-            LogHelper.trace(PLAYER_LEARN_KNOWLEDGE, "Player {} learned {}", playerName, object);
+            LogHelper.trace(
+                PLAYER_LEARN_KNOWLEDGE, "Player {} learned {}", playerName, object
+            );
             save(playerName);
         }
     }
@@ -135,7 +137,6 @@ public class PlayerKnowledgeRegistry {
      * @param objects
      */
     public void teachPlayer(EntityPlayer entityPlayer, Collection<?> objects) {
-
         if (entityPlayer != null) {
             teachPlayer(entityPlayer.getDisplayName(), objects);
         }
@@ -148,15 +149,15 @@ public class PlayerKnowledgeRegistry {
      * @param objects
      */
     public void teachPlayer(String playerName, Collection<?> objects) {
-
         if (objects != null) {
-
             PlayerKnowledge playerKnowledge = getPlayerKnowledge(playerName);
 
             if (playerKnowledge != null) {
-                for (Object object : objects){
+                for (Object object : objects) {
                     getPlayerKnowledge(playerName).learn(object);
-                    LogHelper.trace(PLAYER_LEARN_KNOWLEDGE, "Player {} learned {}", playerName, object);
+                    LogHelper.trace(
+                        PLAYER_LEARN_KNOWLEDGE, "Player {} learned {}", playerName, object
+                    );
                 }
                 save(playerName);
             }
@@ -170,7 +171,6 @@ public class PlayerKnowledgeRegistry {
      * @param object
      */
     public void makePlayerForget(EntityPlayer entityPlayer, Object object) {
-
         if (entityPlayer != null) {
             makePlayerForget(entityPlayer.getDisplayName(), object);
         }
@@ -183,10 +183,11 @@ public class PlayerKnowledgeRegistry {
      * @param object
      */
     public void makePlayerForget(String playerName, Object object) {
-
         if (getPlayerKnowledge(playerName) != null) {
             getPlayerKnowledge(playerName).forget(object);
-            LogHelper.trace(PLAYER_FORGET_KNOWLEDGE_MARKER, "Player {} forgot {}", playerName, object);
+            LogHelper.trace(
+                PLAYER_FORGET_KNOWLEDGE_MARKER, "Player {} forgot {}", playerName, object
+            );
             save(playerName);
         }
     }
@@ -198,7 +199,6 @@ public class PlayerKnowledgeRegistry {
      * @param objects
      */
     public void makePlayerForget(EntityPlayer entityPlayer, Collection<?> objects) {
-
         if (entityPlayer != null) {
             makePlayerForget(entityPlayer.getDisplayName(), objects);
         }
@@ -211,15 +211,18 @@ public class PlayerKnowledgeRegistry {
      * @param objects
      */
     public void makePlayerForget(String playerName, Collection<?> objects) {
-
         if (objects != null) {
-
             PlayerKnowledge playerKnowledge = getPlayerKnowledge(playerName);
 
             if (playerKnowledge != null) {
                 for (Object object : objects) {
                     getPlayerKnowledge(playerName).forget(object);
-                    LogHelper.trace(PLAYER_FORGET_KNOWLEDGE_MARKER, "Player {} forgot {}", playerName, object);
+                    LogHelper.trace(
+                        PLAYER_FORGET_KNOWLEDGE_MARKER,
+                        "Player {} forgot {}",
+                        playerName,
+                        object
+                    );
                 }
                 save(playerName);
             }
@@ -232,7 +235,6 @@ public class PlayerKnowledgeRegistry {
      * @param entityPlayer
      */
     public void makePlayerForgetAll(EntityPlayer entityPlayer) {
-
         if (entityPlayer != null) {
             makePlayerForgetAll(entityPlayer.getDisplayName());
         }
@@ -244,11 +246,14 @@ public class PlayerKnowledgeRegistry {
      * @param playerName
      */
     public void makePlayerForgetAll(String playerName) {
-
         if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
             if (playerName != null && !playerName.isEmpty()) {
                 playerKnowledgeMap.put(playerName, new PlayerKnowledge());
-                LogHelper.trace(PLAYER_FORGET_ALL_KNOWLEDGE_MARKER, "Player {} forget everything", playerName);
+                LogHelper.trace(
+                    PLAYER_FORGET_ALL_KNOWLEDGE_MARKER,
+                    "Player {} forget everything",
+                    playerName
+                );
                 save(playerName);
             }
         }
@@ -261,7 +266,6 @@ public class PlayerKnowledgeRegistry {
      * @return
      */
     public Set<ItemStack> getKnownItemStacks(EntityPlayer entityPlayer) {
-
         if (entityPlayer != null) {
             return getKnownItemStacks(entityPlayer.getDisplayName());
         }
@@ -276,7 +280,6 @@ public class PlayerKnowledgeRegistry {
      * @return
      */
     public Set<ItemStack> getKnownItemStacks(String playerName) {
-
         if (getPlayerKnowledge(playerName) != null) {
             return getPlayerKnowledge(playerName).getKnownItemStacks();
         }
@@ -291,7 +294,6 @@ public class PlayerKnowledgeRegistry {
      * @return
      */
     protected PlayerKnowledge getPlayerKnowledge(EntityPlayer entityPlayer) {
-
         if (entityPlayer != null) {
             return getPlayerKnowledge(entityPlayer.getDisplayName());
         }
@@ -306,10 +308,12 @@ public class PlayerKnowledgeRegistry {
      * @return
      */
     private PlayerKnowledge getPlayerKnowledge(String playerName) {
-
-        if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER && playerName != null && !playerName.isEmpty()) {
+        if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER
+            && playerName != null && !playerName.isEmpty()) {
             if (!playerKnowledgeMap.containsKey(playerName)) {
-                playerKnowledgeMap.put(playerName, load(getPlayerKnowledgeFile(playerName), false));
+                playerKnowledgeMap.put(
+                    playerName, load(getPlayerKnowledgeFile(playerName), false)
+                );
             }
 
             return playerKnowledgeMap.get(playerName);
@@ -322,11 +326,12 @@ public class PlayerKnowledgeRegistry {
      * TODO Finish JavaDoc
      */
     public void saveAll() {
-
         if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
-
             // Save the template to file
-            SerializationHelper.writeJsonFile(templatePlayerKnowledgeFile, SerializationHelper.GSON.toJson(templatePlayerKnowledge));
+            SerializationHelper.writeJsonFile(
+                templatePlayerKnowledgeFile,
+                SerializationHelper.GSON.toJson(templatePlayerKnowledge)
+            );
 
             // Save every currently loaded player knowledge to file
             for (String playerName : playerKnowledgeMap.keySet()) {
@@ -341,12 +346,15 @@ public class PlayerKnowledgeRegistry {
      * @param playerName
      */
     private void save(String playerName) {
-
         if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
             if (playerName != null && !playerName.isEmpty()) {
                 File playerKnowledgeFile = getPlayerKnowledgeFile(playerName);
                 if (playerKnowledgeFile != null) {
-                    SerializationHelper.writeJsonFile(playerKnowledgeFile, SerializationHelper.GSON.toJson(playerKnowledgeMap.get(playerName)));
+                    SerializationHelper.writeJsonFile(
+                        playerKnowledgeFile,
+                        SerializationHelper.GSON.toJson(playerKnowledgeMap.get(playerName)
+                        )
+                    );
                 }
             }
         }
@@ -356,12 +364,12 @@ public class PlayerKnowledgeRegistry {
      * TODO Finish JavaDoc
      */
     public void load() {
-
         // Load template knowledge
         if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
-
             templatePlayerKnowledge.forgetAll();
-            templatePlayerKnowledge.learn(load(templatePlayerKnowledgeFile, true).getKnownItemStacks());
+            templatePlayerKnowledge.learn(
+                load(templatePlayerKnowledgeFile, true).getKnownItemStacks()
+            );
 
             // Reset the player knowledge map
             playerKnowledgeMap.clear();
@@ -375,30 +383,38 @@ public class PlayerKnowledgeRegistry {
      * @return
      */
     private PlayerKnowledge load(File file, boolean isTemplate) {
-
-        if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER && file != null) {
+        if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER
+            && file != null) {
             try {
                 String jsonString = SerializationHelper.readJsonFile(file);
-                PlayerKnowledge playerKnowledge = SerializationHelper.GSON.fromJson(jsonString, PlayerKnowledge.class);
+                PlayerKnowledge playerKnowledge
+                    = SerializationHelper.GSON
+                          .fromJson(jsonString, PlayerKnowledge.class);
 
                 if (playerKnowledge != null) {
                     return playerKnowledge;
                 }
-            }
-            catch (JsonSyntaxException e) {
-                LogHelper.error("Unable to read player knowledge from file '{}'", file.getAbsoluteFile());
-            }
-            catch (FileNotFoundException e) {
+            } catch (JsonSyntaxException e) {
+                LogHelper.error(
+                    "Unable to read player knowledge from file '{}'",
+                    file.getAbsoluteFile()
+                );
+            } catch (FileNotFoundException e) {
                 LogHelper.warn("Unable to find file '{}'", file.getAbsoluteFile());
             }
         }
 
         if (ConfigurationHandler.Settings.playerKnowledgeTemplateEnabled && !isTemplate) {
-            LogHelper.info("Unable to read player knowledge from {}, initializing a new one with template data", file.getName());
+            LogHelper.info(
+                "Unable to read player knowledge from {}, initializing a new one with template data",
+                file.getName()
+            );
             return new PlayerKnowledge(templatePlayerKnowledge);
-        }
-        else {
-            LogHelper.info("Unable to read player knowledge from {}, initializing a new empty one", file.getName());
+        } else {
+            LogHelper.info(
+                "Unable to read player knowledge from {}, initializing a new empty one",
+                file.getName()
+            );
             return new PlayerKnowledge();
         }
     }
@@ -410,9 +426,12 @@ public class PlayerKnowledgeRegistry {
      * @return
      */
     private static File getPlayerKnowledgeFile(String playerName) {
-
         if (playerName != null && !playerName.isEmpty()) {
-            return new File(Files.playerDataDirectory, "knowledge" + File.separator + "transmutation" + File.separator + playerName + ".json");
+            return new File(
+                Files.playerDataDirectory,
+                "knowledge" + File.separator + "transmutation" + File.separator
+                    + playerName + ".json"
+            );
         }
 
         return null;

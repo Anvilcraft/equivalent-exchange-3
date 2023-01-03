@@ -7,19 +7,23 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class Abilities {
-
     public static void init() {
-
         for (String oreName : OreDictionary.getOreNames()) {
             if (oreName.startsWith("ore")) {
-                OreDictionary.getOres(oreName).forEach(BlacklistRegistryProxy::setAsNotLearnable);
+                OreDictionary.getOres(oreName).forEach(
+                    BlacklistRegistryProxy::setAsNotLearnable
+                );
                 BlacklistRegistryProxy.setAsNotLearnable(new OreStack(oreName));
             }
         }
 
         BlacklistRegistryProxy.setAsNotLearnable(new ItemStack(Blocks.coal_ore));
         BlacklistRegistryProxy.setAsNotLearnable(ModItems.shardMinium);
-        BlacklistRegistryProxy.setAsNotLearnable(new ItemStack(ModItems.alchemicalDust, 1, 1));
-        BlacklistRegistryProxy.setAsNotLearnable(new ItemStack(ModItems.alchemicalDust, 1, 2));
+        BlacklistRegistryProxy.setAsNotLearnable(
+            new ItemStack(ModItems.alchemicalDust, 1, 1)
+        );
+        BlacklistRegistryProxy.setAsNotLearnable(
+            new ItemStack(ModItems.alchemicalDust, 1, 2)
+        );
     }
 }
