@@ -122,9 +122,6 @@ public class EquivalentExchange3 {
         Recipes.init();
         RecipesTransmutationStone.init();
 
-        // Register our fuels
-        GameRegistry.registerFuelHandler(new FuelHandler());
-
         // Register the Waila data provider
         FMLInterModComms.sendMessage(
             "Waila",

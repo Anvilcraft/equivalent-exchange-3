@@ -298,12 +298,10 @@ public class RecipesTransmutationStone {
     }
 
     static {
-        RecipesTransmutationStone.philStone
-            = new ItemStack(ModItems.stonePhilosophers, 1, 32767);
         RecipesTransmutationStone.miniumStone
             = new ItemStack(ModItems.stoneMinium, 1, 32767);
         RecipesTransmutationStone.transmutationStones = Arrays.asList(
-            RecipesTransmutationStone.miniumStone, RecipesTransmutationStone.philStone
+            RecipesTransmutationStone.miniumStone
         );
         RecipesTransmutationStone.anyCoal = new ItemStack(Items.coal, 1, 32767);
         RecipesTransmutationStone.anyWood = new ItemStack(Blocks.log, 1, 32767);

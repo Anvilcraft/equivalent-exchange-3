@@ -2,7 +2,6 @@ package com.pahimar.ee3.init;
 
 import com.pahimar.ee3.block.*;
 import com.pahimar.ee3.item.ItemBlockAlchemicalChest;
-import com.pahimar.ee3.item.ItemBlockAlchemicalFuel;
 import com.pahimar.ee3.reference.Names;
 import com.pahimar.ee3.reference.Reference;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -11,7 +10,6 @@ import net.minecraft.block.Block;
 @GameRegistry.ObjectHolder(Reference.MOD_ID)
 public class ModBlocks {
     public static final BlockEE chalkBlock = new BlockChalk();
-    public static final BlockEE alchemicalFuelBlock = new BlockAlchemicalFuel();
     public static final BlockTileEntityEE alchemicalChest = new BlockAlchemicalChest();
     public static final BlockTileEntityEE aludel = new BlockAludel();
     public static final BlockTileEntityEE calcinator = new BlockCalcinator();
@@ -33,11 +31,6 @@ public class ModBlocks {
             alchemicalChest, ItemBlockAlchemicalChest.class, Names.Blocks.ALCHEMICAL_CHEST
         );
         GameRegistry.registerBlock(chalkBlock, Names.Blocks.CHALK);
-        GameRegistry.registerBlock(
-            alchemicalFuelBlock,
-            ItemBlockAlchemicalFuel.class,
-            Names.Blocks.ALCHEMICAL_FUEL
-        );
         GameRegistry.registerBlock(ashInfusedStone, Names.Blocks.ASH_INFUSED_STONE);
         GameRegistry.registerBlock(alchemyArray, Names.Blocks.ALCHEMY_ARRAY);
         GameRegistry.registerBlock(dummyArray, Names.Blocks.DUMMY_ARRAY);
