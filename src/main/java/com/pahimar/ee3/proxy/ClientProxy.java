@@ -19,6 +19,7 @@ import com.pahimar.ee3.util.TransmutationHelper;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -36,7 +37,7 @@ public class ClientProxy extends CommonProxy {
         super.registerEventHandlers();
         FMLCommonHandler.instance().bus().register(new KeyInputEventHandler());
         FMLCommonHandler.instance().bus().register(new HUDTickHandler());
-        MinecraftForge.EVENT_BUS.register(new ItemTooltipEventHandler());
+        MinecraftForge.EVENT_BUS.register(new ItemTooltipEventHandler(Loader.isModLoaded("ProjectE")));
         MinecraftForge.EVENT_BUS.register(new DrawBlockHighlightEventHandler());
     }
 
