@@ -1,8 +1,12 @@
 package com.pahimar.ee3.handler;
 
 import com.pahimar.ee3.api.event.WorldTransmutationEvent;
+import com.pahimar.ee3.network.PacketHandler;
+import com.pahimar.ee3.network.message.MessageSingleParticleEvent;
+import com.pahimar.ee3.reference.Particles;
 import com.pahimar.ee3.util.TransmutationHelper;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -167,6 +171,24 @@ public class WorldTransmutationHandler {
             );
         }
         if (result) {
+            PacketHandler.INSTANCE.sendToAllAround(
+                new MessageSingleParticleEvent(
+                    Particles.LARGE_EXPLODE,
+                    event.x + 0.5,
+                    event.y + 0.5,
+                    event.z + 0.5,
+                    0.0,
+                    0.0,
+                    0.0
+                ),
+                new TargetPoint(
+                    event.player.worldObj.provider.dimensionId,
+                    event.x,
+                    event.y,
+                    event.z,
+                    32
+                )
+            );
             //event.actionResult = ActionEvent.ActionResult.SUCCESS;
             int currentSlot = event.player.inventory.currentItem;
             handItem.damageItem(1, event.player);
