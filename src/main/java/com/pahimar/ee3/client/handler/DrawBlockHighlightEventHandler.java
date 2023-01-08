@@ -34,8 +34,8 @@ import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class DrawBlockHighlightEventHandler {
-    private static int pulse;
-    private static boolean doInc;
+    private static int pulse = 0;
+    private static boolean doInc = true;
 
     @SubscribeEvent
     public void onDrawBlockHighlightEvent(DrawBlockHighlightEvent event) {
@@ -735,63 +735,63 @@ public class DrawBlockHighlightEventHandler {
             + ((event.player).posZ - (event.player).prevPosZ) * event.partialTicks;
         //final int texture =
         //event.context.renderEngine.func_78341_b("/mods/ee3/textures/effects/noise.png");
-        float xScale = 1.0f;
-        float yScale = 1.0f;
-        float zScale = 1.0f;
-        float xShift = 0.1f;
-        float yShift = 0.1f;
-        float zShift = 0.1f;
+        float xScale = 1.1f;
+        float yScale = 1.1f;
+        float zScale = 1.1f;
+        float xShift = 0.0f;
+        float yShift = 0.0f;
+        float zShift = 0.0f;
         int itemChargeLevel = 0;
         final int chargeLevel = 1 + itemChargeLevel * 2;
         final ForgeDirection sideHit
             = ForgeDirection.getOrientation(event.target.sideHit);
-        switch (sideHit) {
-            case UP: {
-                xScale = chargeLevel + 0.1f;
-                zScale = chargeLevel + 0.1f;
-                xShift = 0.0f;
-                zShift = 0.0f;
-                break;
-            }
-            case DOWN: {
-                xScale = chargeLevel + 0.1f;
-                zScale = chargeLevel + 0.1f;
-                xShift = 0.0f;
-                yShift = -yShift;
-                zShift = 0.0f;
-                break;
-            }
-            case NORTH: {
-                xScale = chargeLevel + 0.1f;
-                yScale = chargeLevel + 0.1f;
-                xShift = 0.0f;
-                yShift = 0.0f;
-                zShift = -zShift;
-                break;
-            }
-            case SOUTH: {
-                xScale = chargeLevel + 0.1f;
-                yScale = chargeLevel + 0.1f;
-                xShift = 0.0f;
-                yShift = 0.0f;
-                break;
-            }
-            case EAST: {
-                yScale = chargeLevel + 0.1f;
-                zScale = chargeLevel + 0.1f;
-                yShift = 0.0f;
-                zShift = 0.0f;
-                break;
-            }
-            case WEST: {
-                yScale = chargeLevel + 0.1f;
-                zScale = chargeLevel + 0.1f;
-                xShift = -xShift;
-                yShift = 0.0f;
-                zShift = 0.0f;
-                break;
-            }
-        }
+        //switch (sideHit) {
+        //    case UP: {
+        //        xScale = chargeLevel + 0.1f;
+        //        zScale = chargeLevel + 0.1f;
+        //        xShift = 0.0f;
+        //        zShift = 0.0f;
+        //        break;
+        //    }
+        //    case DOWN: {
+        //        xScale = chargeLevel + 0.1f;
+        //        zScale = chargeLevel + 0.1f;
+        //        xShift = 0.0f;
+        //        yShift = -yShift;
+        //        zShift = 0.0f;
+        //        break;
+        //    }
+        //    case NORTH: {
+        //        xScale = chargeLevel + 0.1f;
+        //        yScale = chargeLevel + 0.1f;
+        //        xShift = 0.0f;
+        //        yShift = 0.0f;
+        //        zShift = -zShift;
+        //        break;
+        //    }
+        //    case SOUTH: {
+        //        xScale = chargeLevel + 0.1f;
+        //        yScale = chargeLevel + 0.1f;
+        //        xShift = 0.0f;
+        //        yShift = 0.0f;
+        //        break;
+        //    }
+        //    case EAST: {
+        //        yScale = chargeLevel + 0.1f;
+        //        zScale = chargeLevel + 0.1f;
+        //        yShift = 0.0f;
+        //        zShift = 0.0f;
+        //        break;
+        //    }
+        //    case WEST: {
+        //        yScale = chargeLevel + 0.1f;
+        //        zScale = chargeLevel + 0.1f;
+        //        xShift = -xShift;
+        //        yShift = 0.0f;
+        //        zShift = 0.0f;
+        //        break;
+        //    }
+        //}
         GL11.glDepthMask(false);
         GL11.glDisable(2884);
         for (int i = 0; i < 6; ++i) {
@@ -806,9 +806,7 @@ public class DrawBlockHighlightEventHandler {
                 (float) forgeDir.offsetY,
                 (float) forgeDir.offsetZ
             );
-            GL11.glTranslated(0.0, 0.0, (double) (0.5f * zCorrection));
-            GL11.glClear(256);
-            renderPulsingQuad(
+            GL11.glTranslated(0.0, 0.0, (double) (0.5f * zCorrection)); GL11.glClear(256); renderPulsingQuad(
                 new ResourceLocation("ee3", "textures/effects/noise.png"), 0.75f
             );
             GL11.glPopMatrix();
@@ -843,10 +841,10 @@ public class DrawBlockHighlightEventHandler {
         } else {
             DrawBlockHighlightEventHandler.pulse -= 8;
         }
-        if (DrawBlockHighlightEventHandler.pulse == 3000) {
+        if (DrawBlockHighlightEventHandler.pulse >= 3000) {
             DrawBlockHighlightEventHandler.doInc = false;
         }
-        if (DrawBlockHighlightEventHandler.pulse == 0) {
+        if (DrawBlockHighlightEventHandler.pulse <= 0) {
             DrawBlockHighlightEventHandler.doInc = true;
         }
         return DrawBlockHighlightEventHandler.pulse;
