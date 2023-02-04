@@ -2,6 +2,7 @@ package com.pahimar.ee3.array;
 
 import java.util.Random;
 
+import com.pahimar.ee3.handler.ConfigurationHandler.Settings;
 import com.pahimar.ee3.init.ModBlocks;
 import com.pahimar.ee3.reference.Names;
 import com.pahimar.ee3.reference.Particles;
@@ -70,7 +71,7 @@ public class AlchemyArrayTransmutation extends AlchemyArrayEE implements IInvent
         //            return;
         //        }
 
-        if (!world.isRemote && entityPlayer.isSneaking()) {
+        if (!world.isRemote && entityPlayer.isSneaking() && Settings.canCreateTransmutation) {
             boolean successFlag = false;
 
             if (world.getTileEntity(arrayX, arrayY, arrayZ)

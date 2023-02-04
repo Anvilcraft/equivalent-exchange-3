@@ -74,6 +74,8 @@ public class ConfigurationHandler {
             Settings.USE_PLAYER_KNOWLEDGE_TEMPLATE_LABEL
         );
 
+        Settings.canCreateTransmutation = configuration.getBoolean(Settings.CREATE_TRANSMUTATION_NAME, CATEGORY_PLAYER_KNOWLEDGE, Settings.CREATE_TRANSMUTATION_DEFAULT, Settings.CREATE_TRANSMUTATION_COMMENT);
+
         if (configuration.hasChanged()) {
             configuration.save();
         }
@@ -133,5 +135,11 @@ public class ConfigurationHandler {
         private static final String USE_PLAYER_KNOWLEDGE_TEMPLATE_COMMENT
             = "player_knowledge.use_template.comment";
         private static final boolean USE_PLAYER_KNOWLEDGE_TEMPLATE_DEFAULT = true;
+
+        public static boolean canCreateTransmutation;
+        private static final String CREATE_TRANSMUTATION_NAME = "enable_transmutation";
+        private static final String CREATE_TRANSMUTATION_COMMENT
+            = "Whether or not the player can create a transmutation table";
+        private static final boolean CREATE_TRANSMUTATION_DEFAULT = true;
     }
 }
