@@ -44,7 +44,11 @@ public class TransmutationHelper {
         if (currentBlock != null) {
             meta = currentBlock.damageDropped(meta);
             TransmutationHelper.currentBlockStack = new ItemStack(currentBlock, 1, meta);
-            if (TransmutationHelper.previousBlockStack == null) {
+            if (TransmutationHelper.currentBlockStack.getItem() == null) {
+                TransmutationHelper.targetBlockStack = null;
+                TransmutationHelper.currentBlockStack = null;
+                TransmutationHelper.previousBlockStack = null;
+            } else if (TransmutationHelper.previousBlockStack == null) {
                 TransmutationHelper.previousBlockStack
                     = TransmutationHelper.currentBlockStack;
                 TransmutationHelper.targetBlockStack = getNextBlock(
